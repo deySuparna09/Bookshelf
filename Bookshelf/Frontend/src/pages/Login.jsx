@@ -1,28 +1,19 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../utils/axiosInstance';
+import { useAuth } from '../components/useAuth';
+//import axiosInstance from '../utils/axiosInstance';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const {login} = useAuth();
 
   const handleLogin = async (e) => {
   e.preventDefault();
   try {
-    const response = await axiosInstance.post('/api/auth/login', { email, password });
-    if (response.status === 200) {
-      // Store access and refresh tokens only on successful login
-      localStorage.setItem('token', response.data.accessToken);
-      localStorage.setItem('refreshToken', response.data.refreshToken);
-      console.log('Access Token:', localStorage.getItem('token'));
-      console.log('Refresh Token:', localStorage.getItem('refreshToken'));
-      // Update user state if necessary
+    await login(email,password);
       navigate('/bookshelf');
-    } else {
-      console.warn('Unexpected response status:', response.status);
-      throw new Error('Login failed. Please try again.');
-    }
     
   } catch (error) {
     console.error('Login failed:', error.response?.data?.message || error.message);
@@ -30,10 +21,20 @@ const Login = () => {
   }
 };
 
+const handleSocialLogin = async (provider) => {
+    try {
+      // Redirect to the backend authentication route (Google or GitHub)
+      window.location.href = `/api/auth/${provider}`;
+    } catch (error) {
+      console.error(`${provider} login failed:`, error.message);
+      alert(`${provider} login failed: ${error.message}`);
+    }
+  };
+
 
   return (
     <>
-    <div className="login-container p-8 text-center items-center justify-center">
+    <div className=" mt-7 login-container p-8 text-center items-center justify-center">
       <h2 className="text-3xl font-bold mb-4">Login</h2>
       <form onSubmit={handleLogin}>
         <div className="mb-4">
@@ -60,6 +61,13 @@ const Login = () => {
         </div>
         <button type="submit" className="btn-primary px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Login</button>
       </form>
+      <button onClick={() => handleSocialLogin('google')} className="btn-google mr-5 px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
+        Google
+      </button>
+      <button onClick={() => handleSocialLogin('github')} className="btn-github px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
+        GitHub
+      </button>
+
     </div>
     </>
   );

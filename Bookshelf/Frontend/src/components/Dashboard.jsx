@@ -33,7 +33,7 @@ const Dashboard = ({ userId }) => {
 
   return (
     <>
-    <div className="dashboard">
+    <div className ="dashboard">
       <h1>Dashboard</h1>
 
       {/* Currently Reading Section */}

@@ -78,7 +78,7 @@ const Bookshelf = () => {
 
   return (
     <>
-    <div className="text-center items-center justify-center">
+    <div className="text-center items-center justify-center ">
       <h1 className="font-bold mt-3">My Bookshelf</h1>
 
       {/* Search for books */}
@@ -90,7 +90,7 @@ const Bookshelf = () => {
           placeholder="Search for books..."
           className="input w-80 py-1 px-3 border rounded-md outline-none"
         />
-        <button onClick={handleSearch} className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Search</button>
+        <button onClick={handleSearch} className="px-2 py-2 bg-black text-white mt-6 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Search</button>
       </div>
 
       {/* Display search results */}
@@ -105,7 +105,7 @@ const Bookshelf = () => {
               />
               <h3>{book.volumeInfo.title}</h3>
               <p>{book.volumeInfo.authors?.join(', ')}</p>
-              <button onClick={() => addToBookshelf(book)}>Add to Bookshelf</button>
+              <button onClick={() => addToBookshelf(book)} className="px-2 py-2 bg-black text-white mt-3 rounded-md cursor-pointer">Add to Bookshelf</button>
             </div>
           ))}
         </div>

@@ -20,7 +20,8 @@ function Navbar() {
 
   return (
     <>
-    <div className={`p-4 ${sticky ? "sticky-navbar fixed top-0 left-0 w-full shadow-md bg-base-200 dark:bg-slate-700 dark:text-white transition-all duration-300 ease-in-out" : "bg-gray-800"}`}>
+    <div className={`p-4 ${sticky ? "sticky-navbar fixed top-0 left-0 w-full shadow-md bg-base-200 dark:bg-slate-700 dark:text-white transition-all duration-300 ease-in-out" : "bg-gray-800"
+            }`}>
       <nav className="flex justify-between items-center">
         <h1 className="text-white text-lg font-bold">Bookshelf</h1>
         <div>

@@ -51,7 +51,20 @@ export const AuthProvider = ({ children }) => {
   }
 };
 
-  const value = { user, login, loading };
+// Handle tokens from Google/GitHub login callback
+  const handleOAuthCallback = (token, refreshToken, userData) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('refreshToken', refreshToken);
+    setUser(userData); // Set user state with the received user data
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    setUser(null); // Clear user state
+  };
+
+  const value = { user, login, handleOAuthCallback, logout, loading  };
 
   return (<AuthContext.Provider value={value}>{children}</AuthContext.Provider>);
 };

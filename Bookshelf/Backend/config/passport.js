@@ -17,7 +17,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback"
+    callbackURL: "/api/auth/google"
 }, (accessToken, refreshToken, profile, done) => {
     User.findOne({ providerId: profile.id, provider: 'google' })
         .then(existingUser => {
@@ -29,7 +29,9 @@ passport.use(new GoogleStrategy({
                     providerId: profile.id,
                     email: profile.emails[0].value,
                     username: profile.displayName,
-                    avatar: profile._json.picture
+                    avatar: profile._json.picture,
+                    accessToken: accessToken,  
+                    refreshToken: refreshToken
                 }).save()
                     .then(user => done(null, user));
             }
@@ -39,7 +41,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "/auth/github/callback"
+    callbackURL: "/api/auth/github"
 }, (accessToken, refreshToken, profile, done) => {
     User.findOne({ providerId: profile.id, provider: 'github' })
         .then(existingUser => {
@@ -51,7 +53,9 @@ passport.use(new GitHubStrategy({
                     providerId: profile.id,
                     email: profile.emails[0].value,
                     username: profile.displayName,
-                    avatar: profile._json.avatar_url
+                    avatar: profile._json.avatar_url,
+                    accessToken: accessToken,  
+                    refreshToken: refreshToken
                 }).save()
                     .then(user => done(null, user));
             }

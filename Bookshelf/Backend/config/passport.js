@@ -17,7 +17,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/api/auth/google"
+    callbackURL: "http://localhost:5000/api/auth/google/callback"
 }, (accessToken, refreshToken, profile, done) => {
     User.findOne({ providerId: profile.id, provider: 'google' })
         .then(existingUser => {
@@ -41,7 +41,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "/api/auth/github"
+    callbackURL: "http://localhost:5000/api/auth/github/callback"
 }, (accessToken, refreshToken, profile, done) => {
     User.findOne({ providerId: profile.id, provider: 'github' })
         .then(existingUser => {

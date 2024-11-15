@@ -45,7 +45,7 @@ const handleSocialLogin = async (provider) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="input w-80 py-1 px-3 border rounded-md outline-none"
+            className="input w-80 ml-2 py-1 px-3 border rounded-md outline-none"
           />
         </div>
         <div className="mb-4">
@@ -56,16 +56,16 @@ const handleSocialLogin = async (provider) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="input w-80 py-1 px-3 border rounded-md outline-none"
+            className="input w-80 ml-2 py-1 px-3 border rounded-md outline-none"
           />
         </div>
         <button type="submit" className="btn-primary px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Login</button>
       </form>
       <button onClick={() => handleSocialLogin('google')} className="btn-google mr-5 px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
-        Google
+        Continue with Google
       </button>
       <button onClick={() => handleSocialLogin('github')} className="btn-github px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
-        GitHub
+        Continue with GitHub
       </button>
 
     </div>

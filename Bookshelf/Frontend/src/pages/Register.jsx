@@ -43,7 +43,7 @@ const Register = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="input w-80 py-1 px-3 border rounded-md outline-none"
+            className="input w-80 ml-2 py-1 px-3 border rounded-md outline-none"
           />
         </div>
         <div className="mb-4">
@@ -54,7 +54,7 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="input w-80 py-1 px-3 border rounded-md outline-none"
+            className="input w-80 ml-2 py-1 px-3 border rounded-md outline-none"
           />
         </div>
         <div className="mb-4">
@@ -65,7 +65,7 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="input w-80 py-1 px-3 border rounded-md outline-none"
+            className="input w-80 ml-2 py-1 px-3 border rounded-md outline-none"
           />
         </div>
         <button type="submit" className="btn-primary px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Register</button>

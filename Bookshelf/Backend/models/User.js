@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
     provider: { 
       type: String, 
       required: false,
-      enum: ["google", "facebook", "local"], // Example providers; adjust as needed
+      enum: ['google', 'github', 'local'], // Example providers; adjust as needed
     },
     providerId: { type: String, required: false },
     username: { type: String, required: true },

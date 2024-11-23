@@ -13,7 +13,7 @@ const register = async (req, res) => {
     }
     
     // Hash the password before saving
-    console.log(password);
+    // console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ username, email, password, providerId, provider });
     await user.save();

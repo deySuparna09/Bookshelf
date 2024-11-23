@@ -32,7 +32,7 @@ const BookDetails = () => {
         {/* Book Information */}
         <img src={book.thumbnail} alt={book.title} className="w-48 h-72" />
         <h2 className="text-3xl font-bold">{book.title}</h2>
-        <p className="text-lg">Author: {book.author}</p>
+        <p className="text-lg">Author: {book.authors.join(',')}</p>
         <p className="text-lg">Description: {book.description}</p>
         <p className="text-lg">Rating: {book.rating}</p>
         <button className="btn mt-4">Add to Bookshelf</button>

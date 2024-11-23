@@ -24,7 +24,7 @@ const Login = () => {
 const handleSocialLogin = async (provider) => {
     try {
       // Redirect to the backend authentication route (Google or GitHub)
-      window.location.href = `${import.meta.env.REACT_APP_BACKEND_URL}/api/auth/${provider}`;
+      window.location.href = `${import.meta.env.VITE_BACKEND_URL}/api/auth/${provider}`;
     } catch (error) {
       console.error(`${provider} login failed:`, error.message);
       alert(`${provider} login failed: ${error.message}`);

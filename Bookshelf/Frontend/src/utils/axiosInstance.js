@@ -5,7 +5,7 @@ const getAccessToken = () => localStorage.getItem('token');
 
 // Create axios instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000',  // Backend API base URL
+  baseURL:  import.meta.env.REACT_APP_API_URL ||'http://localhost:5000',  // Backend API base URL
   headers: {
     'Content-Type': 'application/json',
   },

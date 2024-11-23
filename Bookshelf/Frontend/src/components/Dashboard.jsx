@@ -44,7 +44,7 @@ const Dashboard = ({ userId }) => {
             {currentlyReading.map(book => (
               <li key={book.id}>
                 <h3>{book.title}</h3>
-                <p>{book.author}</p>
+                <p>{book.authors.join(',')}</p>
               </li>
             ))}
           </ul>

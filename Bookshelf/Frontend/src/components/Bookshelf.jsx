@@ -126,9 +126,11 @@ const Bookshelf = () => {
           <p>No books in your bookshelf yet.</p>
         )}
       </div>
+
       <button onClick={handleLogout} className="logout-button px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
         Logout
       </button>
+
     </div>
     </>
   );

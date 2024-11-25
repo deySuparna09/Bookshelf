@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';  // Ensure this import path is correct
 import { Navigate, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-console.log(import.meta.env.VITE_GOOGLE_BOOKS_API_KEY);
 
 const Bookshelf = () => {
   const [books, setBooks] = useState([]);
@@ -10,7 +9,6 @@ const Bookshelf = () => {
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useAuth();  // Get current authenticated user
   const navigate = useNavigate();
-
   // Fetch books whenever the user is available
   useEffect(() => {
     const fetchBooks = async () => {

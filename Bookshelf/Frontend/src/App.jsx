@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register'; 
 import Auth from './components/Auth'; // Assuming you still need this for handling authentication
 import ProtectedRoute from './components/ProtectedRoute';
+import GitHubCallback from './components/GitHubCallback';
 const App = () => {
   return (
     <>
@@ -23,6 +24,7 @@ const App = () => {
             </ProtectedRoute>
           }
         /> 
+        <Route path="/github/callback" element={<GitHubCallback />} />
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/book/:id" element={<BookDetails />} /> 
         <Route path="/login" element={<Login />} /> 

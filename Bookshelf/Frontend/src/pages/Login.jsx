@@ -61,9 +61,6 @@ const handleSocialLogin = async (provider) => {
         </div>
         <button type="submit" className="btn-primary px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">Login</button>
       </form>
-      <button onClick={() => handleSocialLogin('google')} className="btn-google mr-5 px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
-        Continue with Google
-      </button>
       <button onClick={() => handleSocialLogin('github')} className="btn-github px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer">
         Continue with GitHub
       </button>

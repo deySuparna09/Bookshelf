@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       match: [/\S+@\S+\.\S+/, 'Please provide a valid email address'],
     },
-    password: { type: String, required: true },
+    password: { type: String },
     refreshToken: { type: String },
     avatar: { type: String, default: "" },
   },

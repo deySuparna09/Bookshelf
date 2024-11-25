@@ -37,8 +37,6 @@ export const AuthProvider = ({ children }) => {
       // Store access and refresh tokens only on successful login
       localStorage.setItem('token', res.data.accessToken);
       localStorage.setItem('refreshToken', res.data.refreshToken);
-      console.log('Access Token:', localStorage.getItem('token'));
-      console.log('Refresh Token:', localStorage.getItem('refreshToken'));
       // Update user state if necessary
       setUser(res.data.user);
     } else {

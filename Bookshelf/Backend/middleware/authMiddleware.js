@@ -1,18 +1,19 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const User = require("../models/User");
 
 const authMiddleware = async (req, res, next) => {
-  const authHeader = req.header('Authorization');
+  const authHeader = req.header("Authorization");
 
   // Check if token exists and starts with 'Bearer '
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('No token or authorization header is missing');
-    return res.status(401).json({ message: 'Authorization denied, token missing' });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    console.log("No token or authorization header is missing");
+    return res
+      .status(401)
+      .json({ message: "Authorization denied, token missing" });
   }
 
   // Extract token from header
-  const token = authHeader.split(' ')[1];
-  console.log('Token received:', token);
+  const token = authHeader.split(" ")[1];
 
   try {
     // Verify and decode token
@@ -21,24 +22,23 @@ const authMiddleware = async (req, res, next) => {
     // Fetch the user only if needed, or proceed with decoded ID
     const user = await User.findById(decoded.id);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Attach the user or user ID to the request object
     req.user = { id: user._id, username: user.username, email: user.email }; // You can adjust based on needed data
     next();
   } catch (error) {
-    console.error('Token verification failed:', error);
+    console.error("Token verification failed:", error);
 
     // Token expiration error handling
     if (error instanceof jwt.TokenExpiredError) {
-      return res.status(401).json({ message: 'Token expired' });
+      return res.status(401).json({ message: "Token expired" });
     }
 
     // Other JWT errors
-    return res.status(401).json({ message: 'Token is not valid' });
+    return res.status(401).json({ message: "Token is not valid" });
   }
 };
 
 module.exports = authMiddleware;
-

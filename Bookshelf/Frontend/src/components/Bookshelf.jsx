@@ -43,11 +43,23 @@ const Bookshelf = () => {
 
   const addToBookshelf = async (book) => {
     try {
+      // Check if the book already exists in the user's bookshelf
+      const isBookInBookshelf = books.some((b) => b.bookId === book.id);
+
+      if (isBookInBookshelf) {
+        alert('This book is already in your bookshelf!');
+        return; // Exit early to avoid duplicate addition
+      }
+
       const bookData = {
+        bookId: book.id,
         title: book.volumeInfo.title,
-        authors: book.volumeInfo.authors,
-        description: book.volumeInfo.description,
-        thumbnail: book.volumeInfo.imageLinks?.thumbnail,
+        authors: book.volumeInfo.authors || [], // Ensure authors is an array
+        thumbnail: book.volumeInfo.imageLinks?.thumbnail || "",
+        rating: book.rating || 0,
+        review: book.review || "",
+        progress: book.progress || 0,
+        status: book.status || "not_started",
       };
 
       const token = localStorage.getItem('token');

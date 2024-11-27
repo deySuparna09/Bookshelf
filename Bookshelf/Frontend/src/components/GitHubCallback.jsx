@@ -20,7 +20,7 @@ function GitHubCallback() {
       console.error("Failed to retrieve login data");
       navigate("/login");
     }
-  }, [navigate]);
+  }, [handleOAuthCallback, location.search, navigate]);
   return <p>Processing GitHub login...</p>;
 }
 

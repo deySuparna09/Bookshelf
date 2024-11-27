@@ -27,11 +27,6 @@ router.get(
     session: false,
   }),
   (req, res) => {
-    console.log(
-      process.env.JWT_SECRET,
-      "heyyyyyy",
-      process.env.JWT_REFRESH_SECRET
-    );
     const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });

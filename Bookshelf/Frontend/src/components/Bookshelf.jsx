@@ -10,6 +10,7 @@ const Bookshelf = () => {
   const { user } = useAuth();  // Get current authenticated user
   const navigate = useNavigate();
   // Fetch books whenever the user is available
+  
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -63,9 +64,12 @@ const Bookshelf = () => {
       };
 
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/book', bookData, {
+      const response = await axios.post('http://localhost:5000/api/book', bookData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      // Update the state with the new book (immediate update without refresh)
+    setBooks((prevBooks) => [...prevBooks, response.data]);
       alert('Book added to your bookshelf!');
     } catch (error) {
       console.error('Error adding book:', error.response || error);
@@ -89,7 +93,7 @@ const Bookshelf = () => {
   return (
     <>
     <div className="text-center items-center justify-center ">
-      <h1 className="font-bold mt-3">My Bookshelf</h1>
+      <h1 className="font-bold text-xl mt-6">My Bookshelf</h1>
 
       {/* Search for books */}
       <div>
@@ -105,29 +109,41 @@ const Bookshelf = () => {
 
       {/* Display search results */}
       {searchResults && searchResults.length > 0 && (
-        <div>
-          <h3>Search Results:</h3>
-          {searchResults.map((book) => (
-            <div key={book.id}>
-              <img
-                src={book.volumeInfo.imageLinks?.thumbnail}
-                alt={book.volumeInfo.title}
-              />
-              <h3>{book.volumeInfo.title}</h3>
-              <p>{book.volumeInfo.authors?.join(', ')}</p>
-              <button onClick={() => addToBookshelf(book)} className="px-2 py-2 bg-black text-white mt-3 rounded-md cursor-pointer">Add to Bookshelf</button>
-            </div>
-          ))}
+  <div>
+    <h3 className="font-bold text-xl mt-6">Search Results</h3>
+    <div className="flex overflow-x-auto space-x-4 py-4 scrollbar-hide">
+      {searchResults.map((book) => (
+        <div
+          key={book.id}
+          className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg"
+        >
+          <img
+            src={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/128x194?text=No+Image'}
+            alt={book.volumeInfo.title}
+            className="w-full h-40 object-contain rounded bg-gray-100"
+          />
+          <h3 className="font-semibold mt-2">{book.volumeInfo.title}</h3>
+          <p className="text-sm text-gray-600">
+            {book.volumeInfo.authors?.join(', ') || 'Unknown Author'}
+          </p>
+          <button
+            onClick={() => addToBookshelf(book)}
+            className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-gray-800 duration-300 cursor-pointer"
+          >
+            Add to Bookshelf
+          </button>
         </div>
-      )}
-
+      ))}
+    </div>
+  </div>
+)}
+      <h1 className="font-bold text-xl mt-6">Books in My Collection</h1>
       {/* Display books in the bookshelf */}
-      <div>
-        <h3 className="mt-2 text-blue-500 font-medium">Books in Your Bookshelf :</h3>
+      <div className="flex overflow-x-auto space-x-4 py-4 scrollbar-hide">
         {books.length > 0 ? (
           books.map((book) => (
-            <div key={book._id}>
-              <img src={book.thumbnail} alt={book.title} />
+            <div key={book._id} className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg">
+              <img src={book.thumbnail} alt={book.title} className="w-full h-40 object-contain rounded bg-gray-100" />
               <h3>{book.title}</h3>
               <p>{book.authors?.join(', ')}</p>
             </div>

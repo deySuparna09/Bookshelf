@@ -26,27 +26,22 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema(
-  {
-    provider: { 
-      type: String, 
-      required: false,
-      enum: ['google', 'github', 'local'], // Example providers; adjust as needed
-    },
-    providerId: { type: String, required: false },
-    username: { type: String, required: true },
-    email: { 
-      type: String, 
-      required: true, 
-      unique: true,
-      match: [/\S+@\S+\.\S+/, 'Please provide a valid email address'],
-    },
-    password: { type: String },
-    refreshToken: { type: String },
-    avatar: { type: String, default: "" },
+const userSchema = new mongoose.Schema({
+  provider: {
+    type: String,
+    required: false,
+    enum: ["github", "local"], // Example providers; adjust as needed
   },
-  { timestamps: true }
-);
+  providerId: { type: String, required: false },
+  username: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    match: [/\S+@\S+\.\S+/, "Please provide a valid email address"],
+  },
+  password: { type: String },
+});
 
 // Hash password before saving user
 userSchema.pre("save", async function (next) {

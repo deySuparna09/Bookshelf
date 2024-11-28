@@ -41,6 +41,12 @@ const addBook = async (req, res) => {
     await book.save();
     res.status(201).json(book);
   } catch (error) {
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res
+        .status(400)
+        .json({ message: "This book is already in your bookshelf." });
+    }
     console.error("Error in addBook:", error);
     res.status(500).json({ message: "Error adding book" });
   }

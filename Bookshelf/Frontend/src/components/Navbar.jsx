@@ -30,7 +30,6 @@ function Navbar() {
             <Link to="/" className="text-white mr-4">Home</Link>
             <Link to="/dashboard" className="text-white mr-4">Dashboard</Link>
             <Link to="/bookshelf" className="text-white mr-4">My Bookshelf</Link>
-            <Link to="/auth" className="text-white">Login/Register</Link>
           </div>
         </nav>
       </div>

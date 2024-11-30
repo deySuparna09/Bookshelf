@@ -12,7 +12,7 @@ const BookDetails = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await axiosInstance.get(`/api/books/${id}`);
+        const response = await axiosInstance.get(`/api/book/${id}`);
         setBooks(response.data.books || []); // Adjusted to match API response structure
       } catch (error) {
         console.error('Error fetching book details:', error);

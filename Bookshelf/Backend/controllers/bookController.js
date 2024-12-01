@@ -79,7 +79,7 @@ const updateBookProgress = async (req, res) => {
 
   try {
     const updatedBook = await Book.findOneAndUpdate(
-      { _id: bookId, user: req.user.id }, // Ensure the book belongs to the user
+      { bookId, user: req.user.id }, // Ensure the book belongs to the user
       { progress, status },
       { new: true } // Return the updated document
     );

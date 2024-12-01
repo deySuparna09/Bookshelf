@@ -27,7 +27,7 @@ const Dashboard = () => {
       const response = await axiosInstance.put(`/api/book/${bookId}`, updateData);
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
-          book._id === bookId ? { ...book, ...response.data } : book
+          book.bookId === bookId ? { ...book, ...response.data } : book
         )
       );
     } catch (error) {
@@ -55,7 +55,7 @@ const Dashboard = () => {
       const response = await axiosInstance.put(`/api/book/${bookId}`, { status: newStatus });
       setBooks((prevBooks) =>
         prevBooks.map((book) =>
-          book._id === bookId ? { ...book, ...response.data } : book
+          book.bookId === bookId ? { ...book, ...response.data } : book
         )
       );
 
@@ -111,7 +111,7 @@ const Dashboard = () => {
       ) : books.length > 0 ? (
         <ul>
           {books.map((book) => (
-            <li key={book._id} className="mb-4 border-b pb-2">
+            <li key={book.bookId} className="mb-4 border-b pb-2">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-semibold">{book.title}</h2>
@@ -129,7 +129,7 @@ const Dashboard = () => {
                 <div className="flex gap-2">
                   {book.status === "not_started" && (
                     <button
-                      onClick={() => handleStatusUpdate(book._id, "reading")}
+                      onClick={() => handleStatusUpdate(book.bookId, "reading")}
                       className="px-3 py-1 bg-yellow-500 text-white rounded"
                     >
                       Start Reading
@@ -137,15 +137,15 @@ const Dashboard = () => {
                   )}
                   {book.status === "reading" && (
                     <button
-                      onClick={() => handleProgressUpdate(book._id, book.progress)}
+                      onClick={() => handleProgressUpdate(book.bookId, book.progress)}
                       className={`px-3 py-1 ${
-                        updatingBookId === book._id
+                        updatingBookId === book.bookId
                           ? "bg-gray-400 cursor-not-allowed"
                           : "bg-green-500 text-white"
                       } rounded`}
-                      disabled={updatingBookId === book._id}
+                      disabled={updatingBookId === book.bookId}
                     >
-                      {updatingBookId === book._id ? "Updating..." : "Update Progress"}
+                      {updatingBookId === book.bookId ? "Updating..." : "Update Progress"}
                     </button>
                   )}
                 </div>
@@ -165,5 +165,4 @@ Dashboard.propTypes = {
 };
 
 export default Dashboard;
-
 

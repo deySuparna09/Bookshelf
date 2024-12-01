@@ -2,6 +2,8 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 
 // Register a new user
 const register = async (req, res) => {
@@ -154,4 +156,91 @@ const me = async (req, res) => {
   }
 };
 
-module.exports = { register, login, me, refreshToken };
+// Forgot Password - Send Reset Link
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  console.log("Received email:", email);
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate a password reset token
+    const resetToken = crypto.randomBytes(32).toString("hex");
+    console.log("Generated Reset Token:", resetToken);
+    const resetTokenExpiry = Date.now() + 3600000; // Token valid for 1 hour
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = resetTokenExpiry;
+    await user.save();
+    console.log("User updated with resetToken:", user);
+
+    // Create a transporter using Ethereal email service
+    const testAccount = await nodemailer.createTestAccount();
+    const transporter = nodemailer.createTransport({
+      host: testAccount.smtp.host,
+      port: testAccount.smtp.port,
+      secure: false, // Use false for non-SSL connections
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass,
+      },
+    });
+
+    console.log("Ethereal Email User:", testAccount.user);
+    console.log("Ethereal Email Pass:", testAccount.pass);
+
+    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
+    const mailOptions = {
+      from: `"Bookshelf App" <${testAccount.user}>`, // Sender address
+      to: email, // Receiver address
+      subject: "Password Reset Request",
+      text: `You requested a password reset. Click the link below to reset your password:\n\n${resetURL}`,
+    };
+
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Preview URL:", nodemailer.getTestMessageUrl(info)); // Preview the email
+
+    res.status(200).json({
+      message: "Password reset email sent",
+      previewURL: nodemailer.getTestMessageUrl(info),
+    });
+  } catch (error) {
+    console.error("Forgot Password error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Reset Password - Update Password
+const resetPassword = async (req, res) => {
+  const { resetToken, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ resetToken });
+    if (!user || user.resetTokenExpiry < Date.now()) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.resetToken = undefined; // Remove the reset token after successful change
+    user.resetTokenExpiry = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password has been reset successfully" });
+  } catch (error) {
+    console.error("Reset Password error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  me,
+  refreshToken,
+  forgotPassword,
+  resetPassword,
+};

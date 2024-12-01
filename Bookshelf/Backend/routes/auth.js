@@ -5,6 +5,8 @@ const {
   login,
   me,
   refreshToken,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/authController");
 const jwt = require("jsonwebtoken");
 
@@ -12,6 +14,8 @@ const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password/:resetToken", resetPassword);
 router.get("/me", me); // Add this line for the me route
 router.post("/refreshToken", refreshToken);
 

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ReviewForm from './ReviewForm';
-import ReviewList from './ReviewList';
 import axiosInstance from '../utils/axiosInstance';
 
 const BookDetails = () => {
@@ -53,16 +51,6 @@ const BookDetails = () => {
             </button>
           </div>
         ))}
-      </div>
-
-      {/* Reviews Section */}
-      <div className="reviews-section mt-8">
-        <h3 className="text-xl font-semibold mb-4">Reviews:</h3>
-        <ReviewList bookId={id} />
-        <div className="add-review-section mt-6">
-          <h3 className="text-lg font-semibold mb-2">Leave a Review</h3>
-          <ReviewForm bookId={id} />
-        </div>
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ const Bookshelf = () => {
         title: book.volumeInfo.title,
         authors: book.volumeInfo.authors || [], // Ensure authors is an array
         thumbnail: book.volumeInfo.imageLinks?.thumbnail || "",
-        rating: book.rating || 0,
+        rating: book.rating,
         review: book.review || "",
         progress: book.progress || 0,
         status: book.status || "not_started",
@@ -67,6 +67,7 @@ const Bookshelf = () => {
       const response = await axios.post('http://localhost:5000/api/book', bookData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+    
 
       // Update the state with the new book (immediate update without refresh)
     setBooks((prevBooks) => [...prevBooks, response.data]);
@@ -75,6 +76,71 @@ const Bookshelf = () => {
       console.error('Error adding book:', error.response || error);
     }
   };
+
+// Handle Review Submission
+const handleRatingChange = (bookId, rating) => {
+  setBooks((prevBooks) =>
+    prevBooks.map((b) =>
+      b.bookId === bookId ? { ...b, userRating: Number(rating) } : b
+    )
+  );
+};
+
+const handleReviewChange = (bookId, review) => {
+  setBooks((prevBooks) =>
+    prevBooks.map((b) =>
+      b.bookId === bookId ? { ...b, userReview: review } : b
+    )
+  );
+};
+
+const submitReview = async (bookId) => {
+  const book = books.find((b) => b.bookId === bookId);
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.post(
+      `http://localhost:5000/api/book/${bookId}/review`,
+      {
+        rating: book.userRating,
+        review: book.userReview,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    // Update the local state with the new review
+    setBooks((prevBooks) =>
+      prevBooks.map((b) => (b.bookId === bookId ? res.data : b))
+    );
+    alert("Review submitted!");
+  } catch (error) {
+    console.error("Error submitting review:", error.response || error);
+  }
+};
+
+const deleteReview = async (bookId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await axios.delete(
+      `http://localhost:5000/api/book/${bookId}/review`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    setBooks((prevBooks) =>
+      prevBooks.map((b) =>
+        b.bookId === bookId ? { ...b, reviews: [], averageRating: 0 } : b
+      )
+    );
+    alert("Review deleted!");
+  } catch (error) {
+    console.error("Error deleting review:", error.response || error);
+  }
+};
+
 
   const handleLogout = () => {
     // Clear tokens from localStorage or sessionStorage
@@ -145,7 +211,35 @@ const Bookshelf = () => {
             <div key={book._id} className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg">
               <img src={book.thumbnail} alt={book.title} className="w-full h-40 object-contain rounded bg-gray-100" />
               <h3>{book.title}</h3>
-              <p>{book.authors?.join(', ')}</p>
+              <p>Authors: {book.authors?.join(', ')}</p>
+              {/* Display Average Rating */}
+  <p>Average Rating: {book.averageRating.toFixed(1)}</p>
+  {/* User Review Form */}
+  <div>
+    <label>Rate this book: </label>
+    <select
+      value={book.userRating || ""}
+      onChange={(e) => handleRatingChange(book.bookId, e.target.value)}
+    >
+      <option value="">Select</option>
+      {[1, 2, 3, 4, 5].map((value) => (
+        <option key={value} value={value}>
+          {value}
+        </option>
+      ))}
+    </select>
+
+    <textarea
+      placeholder="Write a review..."
+      value={book.userReview || ""}
+      onChange={(e) => handleReviewChange(book.bookId, e.target.value)}
+    ></textarea>
+
+    <button className="logout-button px-2 py-2 bg-slate-700 text-white mt-3 mr-4 rounded-md hover:bg-slate-800 duration-300 cursor-pointer" onClick={() => submitReview(book.bookId)}>
+      Submit
+    </button>
+    <button  className="logout-button px-2 py-2 bg-slate-700 text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer" onClick={() => deleteReview(book.bookId)}>Delete Review</button>
+  </div>
             </div>
           ))
         ) : (

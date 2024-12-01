@@ -4,6 +4,7 @@ const {
   getBooks,
   updateBookProgress,
   getBooksByStatus,
+  addOrUpdateReview,
 } = require("../controllers/bookController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -20,5 +21,8 @@ router.put("/:bookId", authMiddleware, updateBookProgress);
 
 // Get books by status (e.g., 'reading' or 'finished')
 router.get("/status/:status", authMiddleware, getBooksByStatus);
+
+// Add or update a review for a book
+router.post("/:bookId/review", authMiddleware, addOrUpdateReview);
 
 module.exports = router;

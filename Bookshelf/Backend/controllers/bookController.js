@@ -26,12 +26,19 @@ const addBook = async (req, res) => {
         .status(400)
         .json({ message: "This book is already in your bookshelf." });
     }
+
+    // Check if the book already exists globally in the database
+    const globalBook = await Book.findOne({ bookId });
+
+    // Use the global book's rating if it exists, or default to the provided rating
+    const finalRating = globalBook ? globalBook.rating : rating || 0;
+
     const book = new Book({
       bookId,
       title,
       authors,
       thumbnail,
-      rating,
+      rating: finalRating,
       review,
       progress,
       status,
@@ -101,4 +108,85 @@ const getBooksByStatus = async (req, res) => {
   }
 };
 
-module.exports = { addBook, getBooks, updateBookProgress, getBooksByStatus };
+//Add or Update a Review
+const addOrUpdateReview = async (req, res) => {
+  const { bookId } = req.params;
+  const { rating, review } = req.body;
+
+  if (!rating || rating < 1 || rating > 5) {
+    return res.status(400).json({ message: "Rating must be between 1 and 5." });
+  }
+
+  try {
+    const book = await Book.findOne({ bookId, user: req.user.id });
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found." });
+    }
+
+    const existingReviewIndex = book.reviews.findIndex(
+      (r) => r.user.toString() === req.user.id
+    );
+
+    if (existingReviewIndex >= 0) {
+      // Update the existing review
+      book.reviews[existingReviewIndex].rating = rating;
+      book.reviews[existingReviewIndex].review = review;
+    } else {
+      // Add a new review
+      book.reviews.push({ user: req.user.id, rating, review });
+    }
+
+    // Recalculate average rating
+    book.averageRating =
+      book.reviews.reduce((sum, r) => sum + r.rating, 0) / book.reviews.length;
+
+    console.log(book.averageRating);
+
+    await book.save();
+    res.json(book);
+  } catch (error) {
+    console.error("Error in addOrUpdateReview:", error);
+    res.status(500).json({ message: "Error adding/updating review." });
+  }
+};
+
+//Delete a Review
+const deleteReview = async (req, res) => {
+  const { bookId } = req.params;
+
+  try {
+    const book = await Book.findOne({ bookId, user: req.user.id });
+
+    if (!book) {
+      return res.status(404).json({ message: "Book not found." });
+    }
+
+    // Remove the user's review
+    book.reviews = book.reviews.filter(
+      (r) => r.user.toString() !== req.user.id
+    );
+
+    // Recalculate average rating
+    book.averageRating =
+      book.reviews.length > 0
+        ? book.reviews.reduce((sum, r) => sum + r.rating, 0) /
+          book.reviews.length
+        : 0;
+
+    await book.save();
+    res.json(book);
+  } catch (error) {
+    console.error("Error in deleteReview:", error);
+    res.status(500).json({ message: "Error deleting review." });
+  }
+};
+
+module.exports = {
+  addBook,
+  getBooks,
+  updateBookProgress,
+  getBooksByStatus,
+  addOrUpdateReview,
+  deleteReview,
+};

@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
     match: [/\S+@\S+\.\S+/, "Please provide a valid email address"],
   },
   password: { type: String },
+  friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  friendRequestsSent: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // Requests sent
+  friendRequestsReceived: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  ], // Requests received
 });
 
 // Hash password before saving user

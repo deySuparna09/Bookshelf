@@ -1,5 +1,7 @@
 const express = require("express");
 const passport = require("passport");
+const router = express.Router();
+
 const {
   register,
   login,
@@ -9,9 +11,6 @@ const {
   resetPassword,
   githubCallback,
 } = require("../controllers/authController");
-const jwt = require("jsonwebtoken");
-
-const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);

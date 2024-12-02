@@ -236,6 +236,35 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const githubCallback = (req, res) => {
+  try {
+    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    const refreshToken = jwt.sign(
+      { id: req.user.id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    const user = {
+      id: req.user.id,
+      username: req.user.username,
+      email: req.user.email,
+    };
+
+    // Redirect with tokens as query parameters
+    res.redirect(
+      `http://localhost:5173/github/callback?token=${token}&refreshToken=${refreshToken}&user=${encodeURIComponent(
+        JSON.stringify(user)
+      )}`
+    );
+  } catch (error) {
+    console.error("GitHub callback error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -243,4 +272,5 @@ module.exports = {
   refreshToken,
   forgotPassword,
   resetPassword,
+  githubCallback,
 };

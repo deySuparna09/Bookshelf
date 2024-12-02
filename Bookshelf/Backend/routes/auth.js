@@ -7,6 +7,7 @@ const {
   refreshToken,
   forgotPassword,
   resetPassword,
+  githubCallback,
 } = require("../controllers/authController");
 const jwt = require("jsonwebtoken");
 
@@ -23,6 +24,7 @@ router.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] })
 );
+
 // GitHub Callback Route
 router.get(
   "/github/callback",
@@ -30,28 +32,7 @@ router.get(
     failureRedirect: "/login",
     session: false,
   }),
-  (req, res) => {
-    const token = jwt.sign({ id: req.user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    const refreshToken = jwt.sign(
-      { id: req.user.id },
-      process.env.JWT_REFRESH_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    // Redirect with tokens as query parameters (alternative to localStorage approach)
-    const user = {
-      id: req.user.id,
-      username: req.user.username,
-      email: req.user.email,
-    };
-    res.redirect(
-      `http://localhost:5173/github/callback?token=${token}&refreshToken=${refreshToken}&user=${encodeURIComponent(
-        JSON.stringify(user)
-      )}`
-    );
-  }
+  githubCallback
 );
 
 module.exports = router;

@@ -17,7 +17,13 @@ const register = async (req, res) => {
     // Hash the password before saving
     // console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ username, email, password, providerId, provider });
+    const user = new User({
+      username,
+      email,
+      password: hashedPassword,
+      providerId,
+      provider,
+    });
     await user.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

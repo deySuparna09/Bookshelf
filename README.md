@@ -57,7 +57,8 @@ git clone https://github.com/deySuparna09/Bookshelf.git
 cd Frontend
 
 * Install dependencies:
-
+  
+```bash
 npm install
 
 * Set up your .env file:

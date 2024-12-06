@@ -1,12 +1,12 @@
 # 📚 Bookshelf : A Digital Haven for Book Lovers
 
-📝 Overview
+## 📝 Overview
 
 Bookshelf is a full-stack web application that brings book enthusiasts together, offering a unique platform to organize, explore, and share their love for reading. Whether you’re a casual reader or a passionate bibliophile, Bookshelf makes managing your reading life effortless and engaging.
 
 At its core, Bookshelf is a mini social network dedicated to book lovers and enables a place for readers to curate their favourite book titles, add ratings, reviews, and comments on reviews by friends.
 
-✨ Features
+## ✨ Features
 
 🔒 User Authentication: Secure login and registration with JWT.
 
@@ -23,7 +23,7 @@ At its core, Bookshelf is a mini social network dedicated to book lovers and ena
 
 
 
-💻 Technologies Used
+## 💻 Technologies Used
 
 🖥️ Frontend ----
 
@@ -44,7 +44,7 @@ Authentication: JSON Web Tokens (JWT)
 
 API Integration: Google Books API
 
-⚙️ Setup Instructions
+## ⚙️ Setup Instructions
 
 1️⃣ Clone the repository:
 
@@ -96,7 +96,7 @@ npm run dev
 
 Visit the app at http://localhost:5173 🎉.
 
-📂 Project Structure
+## 📂 Project Structure
 
 🖥️ Frontend
 

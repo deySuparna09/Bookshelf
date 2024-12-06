@@ -8,7 +8,7 @@ At its core, Bookshelf is a mini social network dedicated to book lovers and ena
 
 ## ✨ Features
 
-🔒 User Authentication: Secure login and registration with JWT.
+* 🔒 User Authentication: Secure login and registration with JWT.
 
 📚 Bookshelf Management: Add books directly from the Google Books API.
 

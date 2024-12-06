@@ -57,7 +57,9 @@ git clone https://github.com/deySuparna09/Bookshelf.git
 
 * Navigate to the frontend folder:
 
+```bash
 cd Frontend
+```
 
 * Install dependencies:
   
@@ -80,7 +82,9 @@ npm run dev
 
 * Navigate to the backend folder:
 
+```bash
 cd Backend
+```
 
 * Install dependencies:
 
@@ -108,7 +112,7 @@ npm run dev
 
 4️⃣ Open the App:
 
-Visit the app at ```bash http://localhost:5173 🎉 ```.
+Visit the app at ```bash http://localhost:5173 ``` 🎉 .
 
 ## 📂 Project Structure
 

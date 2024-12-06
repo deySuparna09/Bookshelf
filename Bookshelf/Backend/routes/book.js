@@ -1,4 +1,5 @@
 const express = require("express");
+const router = express.Router();
 const {
   addBook,
   getBooks,
@@ -7,8 +8,6 @@ const {
   addOrUpdateReview,
 } = require("../controllers/bookController");
 const authMiddleware = require("../middleware/authMiddleware");
-
-const router = express.Router();
 
 // Add a book
 router.post("/", authMiddleware, addBook);

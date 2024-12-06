@@ -90,7 +90,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="dashboard p-6">
+    <div className="dashboard p-6 h-screen bg-gray-100">
       <h1 className="text-2xl font-bold mb-4">My Dashboard</h1>
       {/* Status Filter */}
       <div className="mb-4 mt-3">
@@ -130,7 +130,7 @@ const Dashboard = () => {
                 <div>
                   <h2 className="text-xl font-semibold">{book.title}</h2>
                   <p className="text-sm text-gray-500">By: {book.authors.join(", ")}</p>
-                  <div className="w-full bg-gray-200 rounded mt-2">
+                  <div className="w-64 bg-gray-200 rounded mt-2">
                     <div
                       className={`bg-green-500 text-xs font-medium text-white text-center p-1 leading-none rounded transition-all duration-300`}
                       style={{ width: `${book.progress}%` }}

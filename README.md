@@ -56,10 +56,10 @@ git clone https://github.com/deySuparna09/Bookshelf.git
 
 cd Frontend
 
-* Install dependencies:
+*# Install dependencies:
   
 ```bash
-npm install ```bash
+npm install 
 
 * Set up your .env file:
 

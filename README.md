@@ -83,9 +83,10 @@ Set up your .env file:
 PORT=5000  
 MONGO_URI=your-mongodb-uri  
 JWT_SECRET=your-secret-key  
-JWT_REFRESH_SECRET=your-refresh-secret 
-GITHUB_CLIENT_ID=your-client-id
-GITHUB_CLIENT_SECRET=your client-secret
+JWT_REFRESH_SECRET=your-refresh-secret   
+GITHUB_CLIENT_ID=your-client-id  
+GITHUB_CLIENT_SECRET=your-client-secret
+
 
 Start the backend server:
 

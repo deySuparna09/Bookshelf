@@ -48,8 +48,11 @@ At its core, Bookshelf is a mini social network dedicated to book lovers and ena
 
 1️⃣ Clone the repository:
 
+* Install dependencies:
+  
+```bash
 git clone https://github.com/deySuparna09/Bookshelf.git
-
+```
 2️⃣ Setup the Frontend:
 
 * Navigate to the frontend folder:
@@ -63,11 +66,15 @@ npm install
 ```
 * Set up your .env file:
 
+```bash
 VITE_GOOGLE_BOOKS_API_KEY=your-api-key
+```
 
 * Start the development server:
 
+```bash
 npm run dev
+```
 
 3️⃣ Setup the Backend:
 
@@ -77,25 +84,31 @@ cd Backend
 
 * Install dependencies:
 
+```bash
 npm install
+```
 
 * Set up your .env file:
 
+```bash
 PORT=5000  
 MONGO_URI=your-mongodb-uri  
 JWT_SECRET=your-secret-key  
 JWT_REFRESH_SECRET=your-refresh-secret   
 GITHUB_CLIENT_ID=your-client-id  
 GITHUB_CLIENT_SECRET=your-client-secret
+```
 
 
 * Start the backend server:
 
+```bash
 npm run dev
+```
 
 4️⃣ Open the App:
 
-Visit the app at http://localhost:5173 🎉.
+Visit the app at ```bash http://localhost:5173 🎉 ```.
 
 ## 📂 Project Structure
 

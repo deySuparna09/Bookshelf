@@ -25,7 +25,7 @@ At its core, Bookshelf is a mini social network dedicated to book lovers and ena
 
 ## 💻 Technologies Used
 
-🖥️ Frontend ----
+### 🖥️ Frontend ----
 
 Framework: React (Vite)
 
@@ -34,7 +34,7 @@ Styling: Tailwind CSS
 State Management: React Context API
 
 
-🌐 Backend ----
+### 🌐 Backend ----
 
 Framework: Express.js
 
@@ -98,7 +98,7 @@ Visit the app at http://localhost:5173 🎉.
 
 ## 📂 Project Structure
 
-🖥️ Frontend
+### 🖥️ Frontend
 
 frontend/  
 ├── src/  
@@ -108,7 +108,7 @@ frontend/
 │   ├── App.jsx  
 ├── .env   
 
-🌐 Backend
+### 🌐 Backend
 
 backend/  
 ├── config/  

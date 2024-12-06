@@ -112,7 +112,7 @@ npm run dev
 
 4️⃣ Open the App:
 
-Visit the app at ```bash http://localhost:5173 ``` 🎉 .
+Visit the app at ```bash  http://localhost:5173 ``` 🎉 .
 
 ## 📂 Project Structure
 

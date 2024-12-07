@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div 
-      className="home-container p-8 h-[91.3vh] bg-cover bg-center relative"
+      className="home-container p-8 h-[93.1vh] bg-cover bg-center relative"
       style={{ backgroundImage: "url('https://media.istockphoto.com/id/944631208/photo/education-concept-with-book-in-library.jpg?s=612x612&w=0&k=20&c=uJF-uOU5MRR-iwXqJEPAdXeaH-VJ-nqt6TdKUpEdEkk=')" }}
     >
       <div className="absolute inset-0 bg-black opacity-50"></div> {/* Dark overlay */}

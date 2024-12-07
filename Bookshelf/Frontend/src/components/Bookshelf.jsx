@@ -241,34 +241,35 @@ const Bookshelf = () => {
           <div>
             <h3 className="font-bold text-xl mt-6">Search Results</h3>
             <div className="flex overflow-x-auto space-x-4 py-4 scrollbar-hide">
-              {searchResults.map((book) => (
-                <div
-                  key={book.id}
-                  className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg"
-                >
-                  <img
-                    src={
-                      book.volumeInfo.imageLinks?.thumbnail ||
-                      "https://via.placeholder.com/128x194?text=No+Image"
-                    }
-                    alt={book.volumeInfo.title}
-                    className="w-full h-40 object-contain rounded bg-gray-100"
-                  />
-                  <h3 className="font-semibold mt-2 dark:text-black">
-                    {book.volumeInfo.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {book.volumeInfo.authors?.join(", ") || "Unknown Author"}
-                  </p>
-                  <button
-                    onClick={() => addToBookshelf(book)}
-                    className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-gray-800 duration-300 cursor-pointer"
-                  >
-                    Want to Read
-                  </button>
-                </div>
-              ))}
-            </div>
+  {searchResults.map((book) => (
+    <div
+      key={book.id}
+      className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg dark:bg-gray-700 dark:border-gray-500"
+    >
+      <img
+        src={
+          book.volumeInfo.imageLinks?.thumbnail ||
+          "https://via.placeholder.com/128x194?text=No+Image"
+        }
+        alt={book.volumeInfo.title}
+        className="w-full h-40 object-contain rounded  dark:bg-gray-700"
+      />
+      <h3 className="font-semibold mt-2 dark:text-white">
+        {book.volumeInfo.title}
+      </h3>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        {book.volumeInfo.authors?.join(", ") || "Unknown Author"}
+      </p>
+      <button
+        onClick={() => addToBookshelf(book)}
+        className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-gray-800 dark:hover:bg-gray-600 duration-300 cursor-pointer"
+      >
+        Add to Bookshelf
+      </button>
+    </div>
+  ))}
+</div>
+
           </div>
         )}
         <h1 className="font-bold text-xl mt-6">Books in My Collection</h1>
@@ -278,21 +279,21 @@ const Bookshelf = () => {
             books.map((book) => (
               <div
                 key={book._id}
-                className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg"
+                className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg dark:bg-gray-700 dark:border-gray-500"
               >
                 <img
                   src={book.thumbnail}
                   alt={book.title}
-                  className="w-full h-40 object-contain rounded bg-gray-100"
+                  className="w-full h-40 object-contain rounded"
                 />
-                <h3 className="font-bold dark:text-black">{book.title}</h3>
-                <p className="text-sm text-gray-600 dark:text-black">Authors: {book.authors?.join(", ")}</p>
+                <h3 className="font-bold dark:text-white">{book.title}</h3>
+                <p className="text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
                 {/* Display Average Rating */}
-                <p className="text-sm text-gray-600 dark:text-black">Average Rating: {book.averageRating.toFixed(1)}</p>
+                <p className="text-sm text-gray-600 dark:text-white">Average Rating: {book.averageRating.toFixed(1)}</p>
                 {/* User Review Form */}
                 <div>
-                  <label className="dark:text-black">Rate this book: </label>
-                  <select className="dark:text-black"
+                  <label className="dark:text-white">Rate this book: </label>
+                  <select className=" p-1 border rounded bg-white text-black dark:bg-gray-700 dark:text-white dark:border-gray-500"
                     value={book.userRating || ""}
                     onChange={(e) =>
                       handleRatingChange(book.bookId, e.target.value)
@@ -306,7 +307,7 @@ const Bookshelf = () => {
                     ))}
                   </select>
 
-                  <textarea className="dark:text-black"
+                  <textarea className="w-full mt-2 p-2 border rounded bg-white text-black dark:bg-gray-700 dark:text-white dark:border-gray-500"
                     placeholder="Write a review..."
                     value={book.userReview || ""}
                     onChange={(e) =>
@@ -315,19 +316,19 @@ const Bookshelf = () => {
                   ></textarea>
 
                   <button
-                    className="logout-button px-2 py-2 bg-slate-700 text-white mt-3 mr-4 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"
+                    className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 mr-4 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
                     onClick={() => submitReview(book.bookId)}
                   >
                     Submit
                   </button>
                   <button
-                    className="logout-button px-2 py-2 bg-slate-700 text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"
+                    className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
                     onClick={() => deleteReview(book.bookId)}
                   >
                     Delete Review
                   </button>
                   <button
-                    className="logout-button px-2 py-2 bg-slate-700 text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"
+                    className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
                     onClick={() => handleShare(book)}
                   >
                     Share

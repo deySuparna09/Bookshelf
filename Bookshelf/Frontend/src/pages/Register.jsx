@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import { FaGithub } from 'react-icons/fa'; // GitHub logo icon
+import { ThemeContext } from '../components/ThemeContext';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -9,6 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -36,8 +38,16 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="register-container p-8 text-center bg-white shadow-md rounded-lg">
+    <div
+      className={`flex items-center justify-center h-screen ${
+        theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-gray-100 text-gray-800'
+      }`}
+    >
+      <div
+        className={`login-container p-8 text-center shadow-md rounded-lg ${
+          theme === 'dark' ? 'bg-gray-700' : 'bg-white'
+        }`}
+      >
         <h2 className="text-3xl font-bold mb-4">Register</h2>
         {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
         <form onSubmit={handleRegister} className="space-y-4">
@@ -52,7 +62,7 @@ const Register = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-80 py-2 px-3 border rounded-md outline-none"
+              className="w-80 py-2 px-3 border rounded-md outline-none dark:text-black"
             />
           </div>
           <div className="mb-4">
@@ -66,7 +76,7 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-80 py-2 px-3 border rounded-md outline-none"
+              className="w-80 py-2 px-3 border rounded-md outline-none dark:text-black"
             />
           </div>
           <div className="mb-4">
@@ -80,7 +90,7 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-80 py-2 px-3 border rounded-md outline-none"
+              className="w-80 py-2 px-3 border rounded-md outline-none dark:text-black"
             />
           </div>
           <button
@@ -106,7 +116,14 @@ const Register = () => {
             onClick={() => handleSocialLogin('github')}
             className="cursor-pointer flex justify-center items-center mt-3"
           >
-            <FaGithub size={40} className="text-black hover:text-gray-700 transition duration-300" />
+            <FaGithub
+              size={40}
+              className={`${
+                theme === "dark" ? "text-white" : "text-black"
+              } hover:${
+                theme === "dark" ? "text-gray-300" : "text-gray-700"
+              } transition duration-300`}
+            />
           </div>
         </div>
       </div>

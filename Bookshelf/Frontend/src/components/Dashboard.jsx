@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext  } from "react";
 import axiosInstance from "../utils/axiosInstance";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./useAuth";
+import { ThemeContext } from './ThemeContext';
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   // State hooks should not be inside conditions
@@ -90,13 +92,24 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="dashboard p-6 h-screen bg-gray-100">
+    <div
+      className={`dashboard p-6 min-h-screen ${
+        theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"
+      }`}
+    >
       <h1 className="text-2xl font-bold mb-4">My Dashboard</h1>
+
       {/* Status Filter */}
       <div className="mb-4 mt-3">
         <button
           className={`px-4 py-2 mr-2 ${
-            statusFilter === "reading" ? "bg-blue-500 text-white" : "bg-gray-200"
+            statusFilter === "reading"
+              ? theme === "dark"
+                ? "bg-blue-700 text-white"
+                : "bg-blue-500 text-white"
+              : theme === "dark"
+              ? "bg-gray-700 text-white"
+              : "bg-gray-200 text-black"
           }`}
           onClick={() => setStatusFilter("reading")}
         >
@@ -104,7 +117,13 @@ const Dashboard = () => {
         </button>
         <button
           className={`px-4 py-2 mr-2 ${
-            statusFilter === "finished" ? "bg-blue-500 text-white" : "bg-gray-200"
+            statusFilter === "finished"
+              ? theme === "dark"
+                ? "bg-blue-700 text-white"
+                : "bg-blue-500 text-white"
+              : theme === "dark"
+              ? "bg-gray-700 text-white"
+              : "bg-gray-200 text-black"
           }`}
           onClick={() => setStatusFilter("finished")}
         >
@@ -112,13 +131,20 @@ const Dashboard = () => {
         </button>
         <button
           className={`px-4 py-2 ${
-            statusFilter === "not_started" ? "bg-blue-500 text-white" : "bg-gray-200"
+            statusFilter === "not_started"
+              ? theme === "dark"
+                ? "bg-blue-700 text-white"
+                : "bg-blue-500 text-white"
+              : theme === "dark"
+              ? "bg-gray-700 text-white"
+              : "bg-gray-200 text-black"
           }`}
           onClick={() => setStatusFilter("not_started")}
         >
           Not Started
         </button>
       </div>
+
       {/* Book List */}
       {loading ? (
         <p>Loading...</p>
@@ -129,10 +155,12 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-semibold">{book.title}</h2>
-                  <p className="text-sm text-gray-500">By: {book.authors.join(", ")}</p>
+                  <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
+                    By: {book.authors.join(", ")}
+                  </p>
                   <div className="w-64 bg-gray-200 rounded mt-2">
                     <div
-                      className={`bg-green-500 text-xs font-medium text-white text-center p-1 leading-none rounded transition-all duration-300`}
+                      className="bg-green-500 text-xs font-medium text-white text-center p-1 leading-none rounded transition-all duration-300"
                       style={{ width: `${book.progress}%` }}
                     >
                       {book.progress}%
@@ -144,7 +172,9 @@ const Dashboard = () => {
                   {book.status === "not_started" && (
                     <button
                       onClick={() => handleStatusUpdate(book.bookId, "reading")}
-                      className="px-3 py-1 bg-yellow-500 text-white rounded"
+                      className={`px-3 py-1 ${
+                        theme === "dark" ? "bg-yellow-600" : "bg-yellow-500"
+                      } text-white rounded`}
                     >
                       Start Reading
                     </button>
@@ -155,8 +185,10 @@ const Dashboard = () => {
                       className={`px-3 py-1 ${
                         updatingBookId === book.bookId
                           ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-green-500 text-white"
-                      } rounded`}
+                          : theme === "dark"
+                          ? "bg-green-600"
+                          : "bg-green-500"
+                      } text-white rounded`}
                       disabled={updatingBookId === book.bookId}
                     >
                       {updatingBookId === book.bookId ? "Updating..." : "Update Progress"}

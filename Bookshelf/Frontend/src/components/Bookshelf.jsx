@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAuth } from "./useAuth"; // Ensure this import path is correct
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Modal from "./Modal";
+import { ThemeContext } from "./ThemeContext";
 
 const Bookshelf = () => {
   const [books, setBooks] = useState([]);
@@ -11,6 +12,7 @@ const Bookshelf = () => {
   const { user } = useAuth(); // Get current authenticated user
   const navigate = useNavigate();
   // Fetch books whenever the user is available
+  const { theme } = useContext(ThemeContext); 
 
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [currentBook, setCurrentBook] = useState(null);
@@ -209,7 +211,11 @@ const Bookshelf = () => {
 
   return (
     <>
-      <div className="text-center items-center justify-center h-screen bg-gray-100 ">
+      <div
+      className={`text-center items-center justify-center min-h-screen ${
+        theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
+      }`}
+    >
         <h1 className="font-bold text-xl">My Bookshelf</h1>
 
         {/* Search for books */}
@@ -220,7 +226,7 @@ const Bookshelf = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for books..."
-            className="input w-80 py-1 px-3 border rounded-md outline-none"
+            className="input w-80 py-1 px-3 border rounded-md outline-none dark:text-black"
           />
           <button
             onClick={handleSearch}
@@ -248,10 +254,10 @@ const Bookshelf = () => {
                     alt={book.volumeInfo.title}
                     className="w-full h-40 object-contain rounded bg-gray-100"
                   />
-                  <h3 className="font-semibold mt-2">
+                  <h3 className="font-semibold mt-2 dark:text-black">
                     {book.volumeInfo.title}
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {book.volumeInfo.authors?.join(", ") || "Unknown Author"}
                   </p>
                   <button
@@ -279,14 +285,14 @@ const Bookshelf = () => {
                   alt={book.title}
                   className="w-full h-40 object-contain rounded bg-gray-100"
                 />
-                <h3>{book.title}</h3>
-                <p>Authors: {book.authors?.join(", ")}</p>
+                <h3 className="font-bold dark:text-black">{book.title}</h3>
+                <p className="text-sm text-gray-600 dark:text-black">Authors: {book.authors?.join(", ")}</p>
                 {/* Display Average Rating */}
-                <p>Average Rating: {book.averageRating.toFixed(1)}</p>
+                <p className="text-sm text-gray-600 dark:text-black">Average Rating: {book.averageRating.toFixed(1)}</p>
                 {/* User Review Form */}
                 <div>
-                  <label>Rate this book: </label>
-                  <select
+                  <label className="dark:text-black">Rate this book: </label>
+                  <select className="dark:text-black"
                     value={book.userRating || ""}
                     onChange={(e) =>
                       handleRatingChange(book.bookId, e.target.value)
@@ -300,7 +306,7 @@ const Bookshelf = () => {
                     ))}
                   </select>
 
-                  <textarea
+                  <textarea className="dark:text-black"
                     placeholder="Write a review..."
                     value={book.userReview || ""}
                     onChange={(e) =>
@@ -338,7 +344,7 @@ const Bookshelf = () => {
             isOpen={shareModalOpen}
             onClose={() => setShareModalOpen(false)}
           >
-            <h2 className="text-xl font-semibold mb-4">Share {currentBook.title}</h2>
+            <h2 className="text-xl font-semibold mb-4 dark:text-black">Share {currentBook.title}</h2>
             <form
               onSubmit={(e) => {
                 e.preventDefault(); // Prevent form reload

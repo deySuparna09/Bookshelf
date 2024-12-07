@@ -30,7 +30,7 @@ const BookSearch = () => {
         <div className="search-results">
           {results.map((book) => (
             <div key={book.id} className="book-item">
-              <h3>{book.volumeInfo.title}</h3>
+              <h3 >{book.volumeInfo.title}</h3>
               <p>{book.volumeInfo.authors?.join(', ')}</p>
             </div>
           ))}

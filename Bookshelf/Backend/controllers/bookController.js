@@ -27,26 +27,23 @@ const addBook = async (req, res) => {
         .json({ message: "This book is already in your bookshelf." });
     }
 
-    // Check if the book already exists globally in the database
-    const globalBook = await Book.findOne({ bookId });
-
-    // Use the global book's rating if it exists, or default to the provided rating
-    const finalRating = globalBook ? globalBook.rating : rating || 0;
-
     const book = new Book({
       bookId,
       title,
       authors,
       thumbnail,
-      rating: finalRating,
-      review,
+      averageRating: rating || 0,
+      reviews: review ? [{ user: req.user.id, rating, review }] : [],
       progress,
       status,
       user: req.user.id,
     });
 
     await book.save();
-    res.status(201).json(book);
+    const newAverageRating = await recalculateAverageRating(bookId);
+    res
+      .status(201)
+      .json({ ...book.toObject(), averageRating: newAverageRating });
   } catch (error) {
     // Handle duplicate key error
     if (error.code === 11000) {
@@ -137,17 +134,37 @@ const addOrUpdateReview = async (req, res) => {
       book.reviews.push({ user: req.user.id, rating, review });
     }
 
-    // Recalculate average rating
-    book.averageRating =
-      book.reviews.reduce((sum, r) => sum + r.rating, 0) / book.reviews.length;
-
-    console.log(book.averageRating);
-
     await book.save();
-    res.json(book);
+    const newAverageRating = await recalculateAverageRating(bookId);
+    res
+      .status(201)
+      .json({ ...book.toObject(), averageRating: newAverageRating });
   } catch (error) {
     console.error("Error in addOrUpdateReview:", error);
     res.status(500).json({ message: "Error adding/updating review." });
+  }
+};
+
+const recalculateAverageRating = async (bookId) => {
+  try {
+    const books = await Book.find({ bookId });
+    if (books.length === 0) return;
+    const totalRatings = books.reduce((sum, book) => {
+      const bookRatingSum = book.reviews.reduce(
+        (reviewSum, review) => reviewSum + review.rating,
+        0
+      );
+      return sum + bookRatingSum;
+    }, 0);
+    const totalReviews = books.reduce(
+      (count, book) => count + book.reviews.length,
+      0
+    );
+    const newAverageRating = totalReviews > 0 ? totalRatings / totalReviews : 0;
+    await Book.updateMany({ bookId }, { averageRating: newAverageRating });
+    return newAverageRating;
+  } catch (error) {
+    console.error("Error in recalculateAverageRating:", error);
   }
 };
 
@@ -167,15 +184,11 @@ const deleteReview = async (req, res) => {
       (r) => r.user.toString() !== req.user.id
     );
 
-    // Recalculate average rating
-    book.averageRating =
-      book.reviews.length > 0
-        ? book.reviews.reduce((sum, r) => sum + r.rating, 0) /
-          book.reviews.length
-        : 0;
-
     await book.save();
-    res.json(book);
+    const newAverageRating = await recalculateAverageRating(bookId);
+    res
+      .status(201)
+      .json({ ...book.toObject(), averageRating: newAverageRating });
   } catch (error) {
     console.error("Error in deleteReview:", error);
     res.status(500).json({ message: "Error deleting review." });

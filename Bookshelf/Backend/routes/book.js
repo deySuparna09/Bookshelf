@@ -6,6 +6,7 @@ const {
   updateBookProgress,
   getBooksByStatus,
   addOrUpdateReview,
+  deleteReview,
 } = require("../controllers/bookController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -23,5 +24,7 @@ router.get("/status/:status", authMiddleware, getBooksByStatus);
 
 // Add or update a review for a book
 router.post("/:bookId/review", authMiddleware, addOrUpdateReview);
+
+router.delete("/:bookId/review", authMiddleware, deleteReview);
 
 module.exports = router;

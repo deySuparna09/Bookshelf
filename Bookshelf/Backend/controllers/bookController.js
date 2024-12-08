@@ -138,7 +138,11 @@ const addOrUpdateReview = async (req, res) => {
     const newAverageRating = await recalculateAverageRating(bookId);
     res
       .status(201)
-      .json({ ...book.toObject(), averageRating: newAverageRating });
+      .json({
+        ...book.toObject(),
+        review: book.reviews,
+        averageRating: newAverageRating,
+      });
   } catch (error) {
     console.error("Error in addOrUpdateReview:", error);
     res.status(500).json({ message: "Error adding/updating review." });
@@ -171,18 +175,26 @@ const recalculateAverageRating = async (bookId) => {
 //Delete a Review
 const deleteReview = async (req, res) => {
   const { bookId } = req.params;
+  const userId = req.user.id;
 
   try {
-    const book = await Book.findOne({ bookId, user: req.user.id });
+    const book = await Book.findOneAndUpdate(
+      { bookId, "reviews.user": userId },
+      { $pull: { reviews: { user: userId } } },
+      { new: true }
+    );
 
     if (!book) {
+      console.error(
+        `Book not found for bookId: ${bookId} and userId: ${userId}`
+      );
       return res.status(404).json({ message: "Book not found." });
     }
 
     // Remove the user's review
-    book.reviews = book.reviews.filter(
-      (r) => r.user.toString() !== req.user.id
-    );
+    //book.reviews = book.reviews.filter(
+    //(r) => r.user.toString() !== req.user.id
+    //);
 
     await book.save();
     const newAverageRating = await recalculateAverageRating(bookId);

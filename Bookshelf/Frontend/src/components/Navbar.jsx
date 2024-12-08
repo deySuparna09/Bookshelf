@@ -15,9 +15,7 @@ function Navbar() {
     <>
       {/* Navbar Container */}
       <div
-        className={`p-4 z-50 fixed top-0 left-0 w-full shadow-md ${
-          theme === 'dark' ? 'bg-slate-700 text-white' : 'bg-gray-800 text-white'
-        }`}
+        className={`p-4 z-50 fixed top-0 left-0 w-full shadow-md ${theme === 'dark' ? 'bg-slate-700 text-white' : 'bg-gray-800 text-white'}`}
       >
         <nav className="flex justify-between items-center">
           {/* Logo */}
@@ -56,9 +54,7 @@ function Navbar() {
               className="relative inline-flex items-center w-12 h-6 rounded-full bg-gray-300 dark:bg-gray-700"
             >
               <span
-                className={`transform transition-transform duration-300 ease-in-out ${
-                  theme === 'dark' ? 'translate-x-6' : ''
-                }`}
+                className={`transform transition-transform duration-300 ease-in-out ${theme === 'dark' ? 'translate-x-6' : ''}`}
                 style={{
                   width: '18px',
                   height: '18px',
@@ -95,6 +91,24 @@ function Navbar() {
           <Link to="/bookshelf" className="text-white flex items-center gap-2" onClick={handleLinkClick}>
             <FaRegFolderOpen style={{ color: '#03a9f4' }} /> My Bookshelf
           </Link>
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="relative inline-flex items-center w-12 h-6 rounded-full bg-gray-300 dark:bg-gray-700"
+          >
+            <span
+              className={`transform transition-transform duration-300 ease-in-out ${theme === 'dark' ? 'translate-x-6' : ''}`}
+              style={{
+                width: '18px',
+                height: '18px',
+                backgroundColor: '#fff',
+                borderRadius: '50%',
+              }}
+            />
+            <FaSun className="absolute left-1 text-yellow-500 text-xs" />
+            <FaMoon className="absolute right-1 text-gray-800 text-xs" />
+          </button>
         </div>
       </div>
 

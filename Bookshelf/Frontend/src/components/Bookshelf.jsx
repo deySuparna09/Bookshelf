@@ -135,15 +135,18 @@ const Bookshelf = () => {
   const deleteReview = async (bookId) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/book/${bookId}/review`, {
+      const response = await axios.delete(`http://localhost:5000/api/book/${bookId}/review`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setBooks((prevBooks) =>
-        prevBooks.map((b) =>
-          b.bookId === bookId ? { ...b, reviews: [], averageRating: 0 } : b
-        )
-      );
+      const updatedBook = response.data;
+    setBooks((prevBooks) =>
+      prevBooks.map((b) =>
+        b.bookId === bookId
+          ? { ...b, reviews: updatedBook.reviews, averageRating: updatedBook.averageRating }
+          : b
+      )
+    );
       alert("Review deleted!");
     } catch (error) {
       console.error("Error deleting review:", error.response || error);
@@ -290,6 +293,9 @@ const Bookshelf = () => {
                 <p className="text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
                 {/* Display Average Rating */}
                 <p className="text-sm text-gray-600 dark:text-white">Average Rating: {book.averageRating.toFixed(1)}</p>
+                <p className="text-sm text-gray-600 dark:text-white">
+                Your Review: {book.userReview || "No review added yet"}
+                </p>
                 {/* User Review Form */}
                 <div>
                   <label className="dark:text-white">Rate this book: </label>
@@ -325,7 +331,7 @@ const Bookshelf = () => {
                     className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
                     onClick={() => deleteReview(book.bookId)}
                   >
-                    Delete Review
+                    Delete Rating & Review
                   </button>
                   <button
                     className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"

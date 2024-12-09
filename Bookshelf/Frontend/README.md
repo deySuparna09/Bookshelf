@@ -2,9 +2,9 @@
 
 ## 📝 Overview
 
-Bookshelf is a full-stack web application that brings book enthusiasts together, offering a unique platform to organize, explore, and share their love for reading. Whether you’re a casual reader or a passionate bibliophile, Bookshelf makes managing your reading life effortless and engaging.
+Bookshelf is a full-stack web application that brings book enthusiasts together, offering a unique platform to organize, explore for reading. Whether you’re a casual reader or a passionate bibliophile, Bookshelf makes managing your reading life effortless and engaging.
 
-At its core, Bookshelf is a mini social network dedicated to book lovers and enables a place for readers to curate their favourite book titles, add ratings, reviews, and comments on reviews by friends.
+At its core, Bookshelf is a mini social network dedicated to book lovers and enables a place for readers to curate their favourite book titles, add ratings, reviews.
 
 ## ✨ Features
 
@@ -14,7 +14,7 @@ At its core, Bookshelf is a mini social network dedicated to book lovers and ena
 
 - 📊 Interactive Dashboard: Track books you’re reading, completed, and want to read.
 
-- 🗨️ Social Features: Comment on friends’ reviews and interact.
+- 🗨️ Social Features: Rate and review books.
 
 - 🔍 Search Functionality: Find books by title or author.
 

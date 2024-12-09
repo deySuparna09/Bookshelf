@@ -97,7 +97,9 @@ const getBooksByStatus = async (req, res) => {
   const { status } = req.params;
 
   try {
-    const books = await Book.find({ user: req.user.id, status });
+    const books = await Book.find({ user: req.user.id, status }).select(
+      "bookId title authors thumbnail progress status"
+    );
     res.json(books);
   } catch (error) {
     console.error("Error in getBooksByStatus:", error);
@@ -136,13 +138,11 @@ const addOrUpdateReview = async (req, res) => {
 
     await book.save();
     const newAverageRating = await recalculateAverageRating(bookId);
-    res
-      .status(201)
-      .json({
-        ...book.toObject(),
-        review: book.reviews,
-        averageRating: newAverageRating,
-      });
+    res.status(201).json({
+      ...book.toObject(),
+      review: book.reviews,
+      averageRating: newAverageRating,
+    });
   } catch (error) {
     console.error("Error in addOrUpdateReview:", error);
     res.status(500).json({ message: "Error adding/updating review." });

@@ -2,8 +2,9 @@ import { useState, useEffect, useContext } from "react";
 import { useAuth } from "./useAuth"; // Ensure this import path is correct
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Modal from "./Modal";
 import { ThemeContext } from "./ThemeContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Bookshelf = () => {
   const [books, setBooks] = useState([]);
@@ -13,11 +14,6 @@ const Bookshelf = () => {
   const navigate = useNavigate();
   // Fetch books whenever the user is available
   const { theme } = useContext(ThemeContext); 
-
-  const [shareModalOpen, setShareModalOpen] = useState(false);
-  const [currentBook, setCurrentBook] = useState(null);
-  const [shareLink, setShareLink] = useState("");
-
   useEffect(() => {
     const fetchBooks = async () => {
       try {
@@ -57,7 +53,7 @@ const Bookshelf = () => {
       const isBookInBookshelf = books.some((b) => b.bookId === book.id);
 
       if (isBookInBookshelf) {
-        alert("This book is already in your bookshelf!");
+        toast.warn("This book is already in your bookshelf!");
         return; // Exit early to avoid duplicate addition
       }
 
@@ -83,7 +79,7 @@ const Bookshelf = () => {
 
       // Update the state with the new book (immediate update without refresh)
       setBooks((prevBooks) => [...prevBooks, response.data]);
-      alert("Book added to your bookshelf!");
+      toast.success("Book added to your bookshelf!");
     } catch (error) {
       console.error("Error adding book:", error.response || error);
     }
@@ -124,9 +120,17 @@ const Bookshelf = () => {
 
       // Update the local state with the new review
       setBooks((prevBooks) =>
-        prevBooks.map((b) => (b.bookId === bookId ? res.data : b))
-      );
-      alert("Review submitted!");
+      prevBooks.map((b) =>
+        b.bookId === bookId
+          ? {
+              ...b,
+              reviews: res.data.review, // Updated reviews
+              averageRating: res.data.averageRating, // Updated average rating
+            }
+          : b
+      )
+    );
+      toast.success("Rating & Review submitted!");
     } catch (error) {
       console.error("Error submitting review:", error.response || error);
     }
@@ -147,54 +151,9 @@ const Bookshelf = () => {
           : b
       )
     );
-      alert("Review deleted!");
+      toast.success("Rating & Review deleted!");
     } catch (error) {
       console.error("Error deleting review:", error.response || error);
-    }
-  };
-
-  const handleShare = (book) => {
-    setCurrentBook(book);
-    setShareModalOpen(true);
-  };
-
-  const createShareLink = async ({ rating, review, progress  }) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:5000/api/share",
-        {
-          userId: user._id,
-          bookId: currentBook.bookId,
-          rating,
-          review,
-          progress,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      console.log("Share request data:", {
-        userId: user._id,
-        bookId: currentBook.bookId,
-        rating,
-        review,
-        progress,
-      });
-
-      if (response.status === 201) {
-        const { shareLink: generatedLink } = response.data;
-        setShareLink(`${window.location.origin}${generatedLink}`);
-        alert("Share link generated!");
-      } else {
-        alert("Failed to generate share link. Try again!");
-      }
-    } catch (error) {
-      console.error("Error creating share link:", error.response || error);
-      alert("An error occurred while generating the share link.");
-    } finally {
-      setShareModalOpen(false);
     }
   };
 
@@ -214,6 +173,7 @@ const Bookshelf = () => {
 
   return (
     <>
+      <ToastContainer />
       <div
       className={`text-center items-center justify-center min-h-screen ${
         theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
@@ -247,7 +207,7 @@ const Bookshelf = () => {
   {searchResults.map((book) => (
     <div
       key={book.id}
-      className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg dark:bg-gray-700 dark:border-gray-500"
+      className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg hover:scale-105 hover:z-10 transition-transform duration-300 dark:bg-gray-700 dark:border-gray-500"
     >
       <img
         src={
@@ -282,7 +242,7 @@ const Bookshelf = () => {
             books.map((book) => (
               <div
                 key={book._id}
-                className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg dark:bg-gray-700 dark:border-gray-500"
+                className="flex-shrink-0 w-60 p-4 bg-white border rounded shadow-lg hover:scale-105 hover:z-10 transition-transform duration-300 dark:bg-gray-700 dark:border-gray-500"
               >
                 <img
                   src={book.thumbnail}
@@ -293,9 +253,6 @@ const Bookshelf = () => {
                 <p className="text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
                 {/* Display Average Rating */}
                 <p className="text-sm text-gray-600 dark:text-white">Average Rating: {book.averageRating.toFixed(1)}</p>
-                <p className="text-sm text-gray-600 dark:text-white">
-                Your Review: {book.userReview || "No review added yet"}
-                </p>
                 {/* User Review Form */}
                 <div>
                   <label className="dark:text-white">Rate this book: </label>
@@ -322,22 +279,16 @@ const Bookshelf = () => {
                   ></textarea>
 
                   <button
-                    className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 mr-4 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
+                    className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
                     onClick={() => submitReview(book.bookId)}
                   >
                     Submit
                   </button>
                   <button
-                    className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
+                    className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
                     onClick={() => deleteReview(book.bookId)}
                   >
                     Delete Rating & Review
-                  </button>
-                  <button
-                    className="logout-button px-2 py-2 bg-slate-800 text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
-                    onClick={() => handleShare(book)}
-                  >
-                    Share
                   </button>
                 </div>
               </div>
@@ -346,42 +297,6 @@ const Bookshelf = () => {
             <p>No books in your bookshelf yet.</p>
           )}
         </div>
-        {shareModalOpen && (
-          <Modal
-            isOpen={shareModalOpen}
-            onClose={() => setShareModalOpen(false)}
-          >
-            <h2 className="text-xl font-semibold mb-4 dark:text-black">Share {currentBook.title}</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault(); // Prevent form reload
-                console.log("Current Book:", currentBook);
-                createShareLink({
-                  rating: currentBook.rating,
-                  review: currentBook.review,
-                  progress: currentBook.progress,
-                });
-              }}
-            >
-              <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Generate Link</button>
-            </form>
-          </Modal>
-        )}
-
-        {shareLink && (
-          <div className="mt-4">
-            <p>Shareable Link:</p>
-            <a
-              href={shareLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 underline"
-            >
-              {shareLink}
-            </a>
-          </div>
-        )}
-
         <button
           onClick={handleLogout}
           className="logout-button px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"

@@ -6,7 +6,6 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
-const shareRoutes = require("./routes/share");
 
 require("./config/passport");
 
@@ -36,7 +35,6 @@ connectDB();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/book", bookRoutes);
-app.use("/api/share", shareRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -35,14 +35,14 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        console.log("Trying to refresh token...");
+        //console.log("Trying to refresh token...");
         const refreshToken = localStorage.getItem("refreshToken");
-        console.log("Refresh token:", refreshToken); // Get refresh token from local storage
+        //console.log("Refresh token:", refreshToken); // Get refresh token from local storage
         const res = await axios.post(
           "http://localhost:5000/api/auth/refreshToken",
           { token: refreshToken }
         );
-        console.log("New access token:", res.data.accessToken);
+        //console.log("New access token:", res.data.accessToken);
 
         // Store new tokens
         localStorage.setItem("token", res.data.accessToken);

@@ -179,7 +179,7 @@ const Bookshelf = () => {
         theme === "dark" ? "bg-gray-800 text-white" : "bg-gray-100 text-black"
       }`}
     >
-        <h1 className="font-bold text-xl">My Bookshelf</h1>
+        <h1 className="font-bold text-3xl">My Bookshelf</h1>
 
         {/* Search for books */}
         <div>
@@ -193,7 +193,7 @@ const Bookshelf = () => {
           />
           <button
             onClick={handleSearch}
-            className="px-2 py-2 bg-black text-white mt-6 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"
+            className="px-2 py-2 ml-2 bg-black text-white mt-6 rounded-lg hover:bg-slate-900 duration-300 cursor-pointer"
           >
             Search
           </button>
@@ -217,15 +217,19 @@ const Bookshelf = () => {
         alt={book.volumeInfo.title}
         className="w-full h-40 object-contain rounded  dark:bg-gray-700"
       />
-      <h3 className="font-semibold mt-2 dark:text-white">
-        {book.volumeInfo.title}
-      </h3>
-      <p className="text-sm text-gray-600 dark:text-gray-400">
-        {book.volumeInfo.authors?.join(", ") || "Unknown Author"}
-      </p>
+      <div className="h-14 overflow-hidden">
+        <h3 className="font-semibold mt-2 dark:text-white">
+          {book.volumeInfo.title}
+        </h3>
+       </div>
+       <div className="h-8">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
+          {book.volumeInfo.authors?.join(", ") || "Unknown Author"}
+        </p>
+      </div>
       <button
         onClick={() => addToBookshelf(book)}
-        className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-gray-800 dark:hover:bg-gray-600 duration-300 cursor-pointer"
+        className="px-2 py-2 bg-black text-white mt-3 rounded-full hover:bg-gray-800 dark:hover:bg-gray-600 duration-300 cursor-pointer"
       >
         Add to Bookshelf
       </button>
@@ -249,14 +253,14 @@ const Bookshelf = () => {
                   alt={book.title}
                   className="w-full h-40 object-contain rounded"
                 />
-                <h3 className="font-bold dark:text-white">{book.title}</h3>
-                <p className="text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
+                <h3 className="h-14 font-bold dark:text-white">{book.title}</h3>
+                <p className="h-12 text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
                 {/* Display Average Rating */}
-                <p className="text-sm text-gray-600 dark:text-white">Average Rating: {book.averageRating.toFixed(1)}</p>
+                <p className="h-8 text-sm text-gray-600 dark:text-white">Average Rating: {book.averageRating.toFixed(1)}</p>
                 {/* User Review Form */}
                 <div>
                   <label className="dark:text-white">Rate this book: </label>
-                  <select className=" p-1 border rounded bg-white text-black dark:bg-gray-700 dark:text-white dark:border-gray-500"
+                  <select className=" h-8 p-1 border rounded bg-white text-black dark:bg-gray-700 dark:text-white dark:border-gray-500"
                     value={book.userRating || ""}
                     onChange={(e) =>
                       handleRatingChange(book.bookId, e.target.value)
@@ -279,16 +283,16 @@ const Bookshelf = () => {
                   ></textarea>
 
                   <button
-                    className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
+                    className="px-3 py-2 mt-2 bg-green-500 text-white rounded-full dark:hover:bg-green-600 duration-300"
                     onClick={() => submitReview(book.bookId)}
                   >
                     Submit
                   </button>
                   <button
-                    className="px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-900 duration-300 cursor-pointer"
+                    className="px-3 py-2 ml-2 mt-2 bg-red-500 text-white rounded-full hover:bg-red-600 duration-300"
                     onClick={() => deleteReview(book.bookId)}
                   >
-                    Delete Rating & Review
+                    Delete 
                   </button>
                 </div>
               </div>
@@ -297,9 +301,11 @@ const Bookshelf = () => {
             <p>No books in your bookshelf yet.</p>
           )}
         </div>
+
+
         <button
           onClick={handleLogout}
-          className="logout-button px-2 py-2 bg-black text-white mt-3 rounded-md hover:bg-slate-800 duration-300 cursor-pointer"
+          className="logout-button px-2 py-2 bg-black text-white mt-3 rounded-xl hover:bg-slate-900 duration-300 cursor-pointer"
         >
           Logout
         </button>

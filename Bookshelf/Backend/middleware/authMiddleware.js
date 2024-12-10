@@ -6,7 +6,7 @@ const authMiddleware = async (req, res, next) => {
 
   // Check if token exists and starts with 'Bearer '
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    console.log("No token or authorization header is missing");
+    //console.log("No token or authorization header is missing");
     return res
       .status(401)
       .json({ message: "Authorization denied, token missing" });

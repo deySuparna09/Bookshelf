@@ -165,7 +165,7 @@ const me = async (req, res) => {
 // Forgot Password - Send Reset Link
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
-  console.log("Received email:", email);
+  //console.log("Received email:", email);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -174,12 +174,12 @@ const forgotPassword = async (req, res) => {
 
     // Generate a password reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
-    console.log("Generated Reset Token:", resetToken);
+    //console.log("Generated Reset Token:", resetToken);
     const resetTokenExpiry = Date.now() + 3600000; // Token valid for 1 hour
     user.resetToken = resetToken;
     user.resetTokenExpiry = resetTokenExpiry;
     await user.save();
-    console.log("User updated with resetToken:", user);
+    //console.log("User updated with resetToken:", user);
 
     // Create a transporter using Ethereal email service
     const testAccount = await nodemailer.createTestAccount();
@@ -193,8 +193,8 @@ const forgotPassword = async (req, res) => {
       },
     });
 
-    console.log("Ethereal Email User:", testAccount.user);
-    console.log("Ethereal Email Pass:", testAccount.pass);
+    //console.log("Ethereal Email User:", testAccount.user);
+    //console.log("Ethereal Email Pass:", testAccount.pass);
 
     const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
     const mailOptions = {

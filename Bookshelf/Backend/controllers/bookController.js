@@ -70,8 +70,8 @@ const getBooks = async (req, res) => {
 //Update progress or status of a book
 const updateBookProgress = async (req, res) => {
   const { bookId } = req.params;
-  console.log("Book ID received:", bookId); // Log the bookId
-  console.log("Update Data:", req.body); // Log the data sent from the frontend
+  //console.log("Book ID received:", bookId); // Log the bookId
+  //console.log("Update Data:", req.body); // Log the data sent from the frontend
   const { progress, status } = req.body;
 
   try {

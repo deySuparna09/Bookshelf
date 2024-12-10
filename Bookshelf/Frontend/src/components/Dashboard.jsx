@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [statusFilter, setStatusFilter] = useState("reading");
   const [loading, setLoading] = useState(false);
   const [updatingBookId, setUpdatingBookId] = useState(null);
+  
 
   useEffect(() => {
     if (!user) {
@@ -88,17 +89,18 @@ const Dashboard = () => {
 
   return (
     <div
-      className={`dashboard p-6 min-h-screen sm:p-8 md:p-12 ${
+      className={`dashboard px-2 pt-0 pb-4 min-h-screen ${
         theme === "dark"
           ? "bg-gray-800 text-white"
           : "bg-gray-100 text-gray-900"
       }`}
+      style={{ paddingTop: "0", marginTop: "0" }}
     >
-      <h1 className="text-2xl font-bold mb-4">My Dashboard</h1>
+      <h1 className="text-3xl font-bold text-center pb-4">My Dashboard</h1>
 
-      <div className="mb-4 mt-3 flex flex-wrap gap-2">
+      <div className="mb-4 mt-3 flex flex-wrap gap-2 px-2">
         <button
-          className={`px-4 py-2 w-full sm:w-auto ${
+          className={`px-4 py-2 w-full sm:w-auto rounded-lg ${
             statusFilter === "reading"
               ? theme === "dark"
                 ? "bg-blue-700 text-white"
@@ -112,7 +114,7 @@ const Dashboard = () => {
           Currently Reading
         </button>
         <button
-          className={`px-4 py-2 w-full sm:w-auto ${
+          className={`px-4 py-2 w-full sm:w-auto rounded-lg ${
             statusFilter === "finished"
               ? theme === "dark"
                 ? "bg-blue-700 text-white"
@@ -126,7 +128,7 @@ const Dashboard = () => {
           Finished
         </button>
         <button
-          className={`px-4 py-2 w-full sm:w-auto ${
+          className={`px-4 py-2 w-full sm:w-auto rounded-lg ${
             statusFilter === "not_started"
               ? theme === "dark"
                 ? "bg-blue-700 text-white"
@@ -181,8 +183,8 @@ const Dashboard = () => {
                   <button
                     onClick={() => handleStatusUpdate(book.bookId, "reading")}
                     className={`px-4 py-2 ${
-                      theme === "dark" ? "bg-yellow-600" : "bg-yellow-500"
-                    } text-white rounded shadow-md hover:shadow-lg`}
+                      theme === "dark" ? "bg-lime-600" : "bg-lime-600"
+                    } text-white rounded-full shadow-md hover:shadow-lg`}
                   >
                     Start Reading
                   </button>
@@ -196,9 +198,9 @@ const Dashboard = () => {
                       updatingBookId === book.bookId
                         ? "bg-gray-400 cursor-not-allowed"
                         : theme === "dark"
-                        ? "bg-green-600"
-                        : "bg-green-500"
-                    } text-white rounded shadow-md hover:shadow-lg`}
+                        ? "bg-amber-400"
+                        : "bg-amber-400"
+                    } text-white rounded-full shadow-md hover:shadow-lg`}
                     disabled={updatingBookId === book.bookId}
                   >
                     {updatingBookId === book.bookId

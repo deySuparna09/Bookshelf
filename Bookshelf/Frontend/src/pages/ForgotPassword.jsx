@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { ThemeContext } from "../components/ThemeContext";
 
 const ForgotPassword = () => {
@@ -10,7 +10,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/forgot-password", { email });
+      await axiosInstance.post('/api/auth/forgot-password', { email });
       setMessage("If the email exists, a reset link has been sent.");
     } catch (error) {
       console.error("Error sending reset email:", error);

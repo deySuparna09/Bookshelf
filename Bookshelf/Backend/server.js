@@ -2,20 +2,31 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
+require("./config/passport");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
-
-require("./config/passport");
-
 const app = express();
+
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.DEPLOYED_CLIENT_URL,
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 app.use(

@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { useAuth } from "./useAuth"; // Ensure this import path is correct
 import { Navigate, useNavigate } from "react-router-dom";
+import axiosInstance from "../utils/axiosInstance";
 import axios from "axios";
 import { ThemeContext } from "./ThemeContext";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,7 +19,7 @@ const Bookshelf = () => {
     const fetchBooks = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/book", {
+        const res = await axiosInstance.get('/api/book', {
           headers: { Authorization: `Bearer ${token}` }, // Send token for user-specific books
         });
         setBooks(Array.isArray(res.data) ? res.data : []);
@@ -35,15 +36,10 @@ const Bookshelf = () => {
 
   const handleSearch = async () => {
     try {
-      const res = await axios.get(
-        `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${
-          import.meta.env.VITE_GOOGLE_BOOKS_API_KEY
-        }`
-      );
-
-      setSearchResults(res.data.items || []);
+      const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`);
+      setSearchResults(response.data.items);
     } catch (error) {
-      console.error("Error searching for books:", error);
+      console.error('Error fetching book data:', error);
     }
   };
 
@@ -69,8 +65,8 @@ const Bookshelf = () => {
       };
 
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        "http://localhost:5000/api/book",
+      const response = await axiosInstance.post(
+        '/api/book',
         bookData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -107,8 +103,8 @@ const Bookshelf = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.post(
-        `http://localhost:5000/api/book/${bookId}/review`,
+      const res = await axiosInstance.post(
+        `/api/book/${bookId}/review`,
         {
           rating: book.userRating,
           review: book.userReview,
@@ -139,7 +135,7 @@ const Bookshelf = () => {
   const deleteReview = async (bookId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(`http://localhost:5000/api/book/${bookId}/review`, {
+      const response = await axiosInstance.delete(`/api/book/${bookId}/review`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -253,8 +249,8 @@ const Bookshelf = () => {
                   alt={book.title}
                   className="w-full h-40 object-contain rounded"
                 />
-                <h3 className="h-14 font-bold dark:text-white">{book.title}</h3>
-                <p className="h-12 text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
+                <h3 className="h-16 font-bold dark:text-white">{book.title}</h3>
+                <p className="h-16 text-sm text-gray-600 dark:text-white">{book.authors?.join(", ")}</p>
                 {/* Display Average Rating */}
                 <p className="h-8 text-sm text-gray-600 dark:text-white">Average Rating: {book.averageRating.toFixed(1)}</p>
                 {/* User Review Form */}

@@ -3,9 +3,14 @@ import axios from "axios";
 // Function to get the token from localStorage
 const getAccessToken = () => localStorage.getItem("token");
 
+const baseURL =
+  import.meta.env.VITE_BACKEND_URL ||
+  import.meta.env.VITE_DEPLOYED_BACKEND_URL ||
+  "http://localhost:5000";
+
 // Create axios instance
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.REACT_APP_API_URL || "http://localhost:5000", // Backend API base URL
+  baseURL, // Backend API base URL
   headers: {
     "Content-Type": "application/json",
   },
@@ -38,10 +43,9 @@ axiosInstance.interceptors.response.use(
         //console.log("Trying to refresh token...");
         const refreshToken = localStorage.getItem("refreshToken");
         //console.log("Refresh token:", refreshToken); // Get refresh token from local storage
-        const res = await axios.post(
-          "http://localhost:5000/api/auth/refreshToken",
-          { token: refreshToken }
-        );
+        const res = await axios.post(`${baseURL}/api/auth/refreshToken`, {
+          token: refreshToken,
+        });
         //console.log("New access token:", res.data.accessToken);
 
         // Store new tokens

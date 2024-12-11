@@ -196,7 +196,9 @@ const forgotPassword = async (req, res) => {
     //console.log("Ethereal Email User:", testAccount.user);
     //console.log("Ethereal Email Pass:", testAccount.pass);
 
-    const resetURL = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetURL = `${
+      process.env.CLIENT_URL || process.env.DEPLOYED_CLIENT_URL
+    }/reset-password/${resetToken}`;
     const mailOptions = {
       from: `"Bookshelf App" <${testAccount.user}>`, // Sender address
       to: email, // Receiver address
@@ -259,9 +261,10 @@ const githubCallback = (req, res) => {
       email: req.user.email,
     };
 
+    const clientUrl = process.env.CLIENT_URL || process.env.DEPLOYED_CLIENT_URL;
     // Redirect with tokens as query parameters
     res.redirect(
-      `http://localhost:5173/github/callback?token=${token}&refreshToken=${refreshToken}&user=${encodeURIComponent(
+      `${clientUrl}/github/callback?token=${token}&refreshToken=${refreshToken}&user=${encodeURIComponent(
         JSON.stringify(user)
       )}`
     );

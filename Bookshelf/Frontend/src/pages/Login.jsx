@@ -31,7 +31,7 @@ const Login = () => {
   const handleSocialLogin = async (provider) => {
     try {
       window.location.href = `${
-        import.meta.env.VITE_BACKEND_URL
+        import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_DEPLOYED_BACKEND_URL
       }/api/auth/${provider}`;
     } catch (error) {
       console.error(`${provider} login failed:`, error.message);

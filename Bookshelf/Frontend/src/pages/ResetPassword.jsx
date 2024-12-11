@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { ThemeContext } from "../components/ThemeContext";
 
 const ResetPassword = () => {
@@ -13,7 +13,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, {
+      await axiosInstance.post(`/api/auth/reset-password/${token}`, {
         resetToken: token,
         newPassword,
       });

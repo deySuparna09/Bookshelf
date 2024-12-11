@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         setLoading(true);
         try {
-          const res = await axiosInstance.get('http://localhost:5000/api/auth/me', {
+          const res = await axiosInstance.get('/api/auth/me', {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(res.data);

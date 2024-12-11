@@ -7,6 +7,7 @@ const {
   getBooksByStatus,
   addOrUpdateReview,
   deleteReview,
+  deleteBook,
 } = require("../controllers/bookController");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -26,5 +27,7 @@ router.get("/status/:status", authMiddleware, getBooksByStatus);
 router.post("/:bookId/review", authMiddleware, addOrUpdateReview);
 
 router.delete("/:bookId/review", authMiddleware, deleteReview);
+
+router.delete("/:id", authMiddleware, deleteBook);
 
 module.exports = router;

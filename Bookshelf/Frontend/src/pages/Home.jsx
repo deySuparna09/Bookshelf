@@ -31,13 +31,13 @@ const Home = () => {
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <Link
             to="/login"
-            className="px-6 py-3 bg-black text-white rounded-full hover:bg-slate-800 transition duration-300"
+            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-slate-800 transition duration-300"
           >
             LOGIN
           </Link>
           <Link
             to="/register"
-            className="px-6 py-3 bg-black text-white rounded-full hover:bg-slate-800 transition duration-300"
+            className="px-6 py-3 bg-black text-white rounded-lg hover:bg-slate-800 transition duration-300"
           >
             REGISTER
           </Link>

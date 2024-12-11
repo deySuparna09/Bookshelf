@@ -67,6 +67,33 @@ const getBooks = async (req, res) => {
   }
 };
 
+// Controller to delete a book
+const deleteBook = async (req, res) => {
+  const bookId = req.params.id; // Get book ID from the route parameter
+  const userId = req.user.id; // Assuming `req.user` contains the authenticated user info
+
+  try {
+    // Find the book in the database
+    const book = await Book.findOne({ _id: bookId, user: userId });
+
+    if (!book) {
+      return res
+        .status(404)
+        .json({ message: "Book not found in your bookshelf." });
+    }
+
+    // Remove the book
+    await Book.deleteOne({ _id: bookId, user: userId });
+
+    return res.status(200).json({ message: "Book removed successfully." });
+  } catch (error) {
+    console.error("Error removing book:", error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred while removing the book." });
+  }
+};
+
 //Update progress or status of a book
 const updateBookProgress = async (req, res) => {
   const { bookId } = req.params;
@@ -191,11 +218,6 @@ const deleteReview = async (req, res) => {
       return res.status(404).json({ message: "Book not found." });
     }
 
-    // Remove the user's review
-    //book.reviews = book.reviews.filter(
-    //(r) => r.user.toString() !== req.user.id
-    //);
-
     await book.save();
     const newAverageRating = await recalculateAverageRating(bookId);
     res
@@ -214,4 +236,5 @@ module.exports = {
   getBooksByStatus,
   addOrUpdateReview,
   deleteReview,
+  deleteBook,
 };

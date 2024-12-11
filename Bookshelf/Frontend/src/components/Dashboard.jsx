@@ -184,7 +184,7 @@ const Dashboard = () => {
                     onClick={() => handleStatusUpdate(book.bookId, "reading")}
                     className={`px-4 py-2 ${
                       theme === "dark" ? "bg-lime-600" : "bg-lime-600"
-                    } text-white rounded-full shadow-md hover:shadow-lg`}
+                    } text-white rounded-lg shadow-md hover:shadow-lg`}
                   >
                     Start Reading
                   </button>
@@ -200,7 +200,7 @@ const Dashboard = () => {
                         : theme === "dark"
                         ? "bg-amber-400"
                         : "bg-amber-400"
-                    } text-white rounded-full shadow-md hover:shadow-lg`}
+                    } text-white rounded-lg shadow-md hover:shadow-lg`}
                     disabled={updatingBookId === book.bookId}
                   >
                     {updatingBookId === book.bookId

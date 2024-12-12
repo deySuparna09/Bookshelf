@@ -9,21 +9,11 @@ const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
 const app = express();
 
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? [process.env.DEPLOYED_CLIENT_URL]
-    : [process.env.CLIENT_URL];
-
+const clientURL = process.env.CLIENT_URL || process.env.DEPLOYED_CLIENT_URL;
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: clientURL,
+    credentials: true, // Allows cookies to be sent
   })
 );
 

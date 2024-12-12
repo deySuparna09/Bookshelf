@@ -8,71 +8,69 @@ At its core, Bookshelf is a mini social network dedicated to book lovers and ena
 
 ## ✨ Features
 
-* 🔒 User Authentication: Secure login and registration with JWT.
+- 🔒 User Authentication: Secure login and registration with JWT.
 
-* 📚 Bookshelf Management: Add books directly from the Google Books API.
+- 📚 Bookshelf Management: Add books directly from the Google Books API.
 
-* 📊 Interactive Dashboard: Track books you’re reading, completed, and want to read.
+- 📊 Interactive Dashboard: Track books you’re reading, completed, and want to read.
 
-* 🗨️ Social Features: Comment on friends’ reviews and interact.
+- 🗨️ Social Features: Rate and review books.
 
-* 🔍 Search Functionality: Find books by title or author.
+- 🔍 Search Functionality: Find books by title or author.
 
-* 📱 Responsive Design: Fully mobile-friendly UI with Tailwind CSS.
-
-
-
+- 📱 Responsive Design: Fully mobile-friendly UI with Tailwind CSS.
 
 ## 💻 Technologies Used
 
 ### 🖥️ Frontend ----
 
-* Framework: React (Vite)
+- Framework: React (Vite)
 
-* Styling: Tailwind CSS
+- Styling: Tailwind CSS
 
-* State Management: React Context API
-
+- State Management: React Context API
 
 ### 🌐 Backend ----
 
-* Framework: Express.js
+- Framework: Express.js
 
-* Database: MongoDB with Mongoose
+- Database: MongoDB with Mongoose
 
-* Authentication: JSON Web Tokens (JWT)
+- Authentication: JSON Web Tokens (JWT)
 
-* API Integration: Google Books API
+- API Integration: Google Books API
 
 ## ⚙️ Setup Instructions
 
 1️⃣ Clone the repository:
 
-* Install dependencies:
-  
+- Install dependencies:
+
 ```bash
 git clone https://github.com/deySuparna09/Bookshelf.git
 ```
+
 2️⃣ Setup the Frontend:
 
-* Navigate to the frontend folder:
+- Navigate to the frontend folder:
 
 ```bash
 cd Frontend
 ```
 
-* Install dependencies:
-  
+- Install dependencies:
+
 ```bash
-npm install 
+npm install
 ```
-* Set up your .env file:
+
+- Set up your .env file:
 
 ```bash
 VITE_GOOGLE_BOOKS_API_KEY=your-api-key
 ```
 
-* Start the development server:
+- Start the development server:
 
 ```bash
 npm run dev
@@ -80,31 +78,30 @@ npm run dev
 
 3️⃣ Setup the Backend:
 
-* Navigate to the backend folder:
+- Navigate to the backend folder:
 
 ```bash
 cd Backend
 ```
 
-* Install dependencies:
+- Install dependencies:
 
 ```bash
 npm install
 ```
 
-* Set up your .env file:
+- Set up your .env file:
 
 ```bash
-PORT=5000  
-MONGO_URI=your-mongodb-uri  
-JWT_SECRET=your-secret-key  
-JWT_REFRESH_SECRET=your-refresh-secret   
-GITHUB_CLIENT_ID=your-client-id  
+PORT=5000
+MONGO_URI=your-mongodb-uri
+JWT_SECRET=your-secret-key
+JWT_REFRESH_SECRET=your-refresh-secret
+GITHUB_CLIENT_ID=your-client-id
 GITHUB_CLIENT_SECRET=your-client-secret
 ```
 
-
-* Start the backend server:
+- Start the backend server:
 
 ```bash
 npm run dev
@@ -112,7 +109,7 @@ npm run dev
 
 4️⃣ Open the App:
 
-Visit the app at ``` http://localhost:5173 ``` 🎉 .
+Visit the app at `http://localhost:5173` 🎉 .
 
 ## 📂 Project Structure
 
@@ -120,11 +117,11 @@ Visit the app at ``` http://localhost:5173 ``` 🎉 .
 
 frontend/  
 ├── src/  
-│   ├── components/  
-│   ├── pages/  
-│   ├── utils/   
-│   ├── App.jsx  
-├── .env   
+│ ├── components/  
+│ ├── pages/  
+│ ├── utils/  
+│ ├── App.jsx  
+├── .env
 
 ### 🌐 Backend
 
@@ -133,6 +130,6 @@ backend/
 ├── controllers/  
 ├── middleware/  
 ├── models/  
-├── routes/   
+├── routes/  
 ├── .env  
-├── server.js  
+├── server.js

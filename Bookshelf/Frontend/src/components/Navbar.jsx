@@ -44,7 +44,7 @@ function Navbar() {
             >
               📚
             </span>
-            Bookshelf
+            BookHaven
           </h1>
 
           {/* Hamburger Menu for Mobile */}
@@ -105,7 +105,7 @@ function Navbar() {
         } dark:bg-gray-900`}
       >
         <div className="p-4 flex justify-between items-center">
-          <h1 className="text-white text-lg font-bold">📚 Bookshelf</h1>
+          <h1 className="text-white text-lg font-bold">📚 BookHaven</h1>
           <button
             onClick={() => setMobileMenuOpen(false)}
             className="text-white"

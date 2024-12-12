@@ -9,10 +9,10 @@ const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
 const app = express();
 
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  process.env.DEPLOYED_CLIENT_URL,
-];
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [process.env.DEPLOYED_CLIENT_URL]
+    : [process.env.CLIENT_URL];
 
 app.use(
   cors({

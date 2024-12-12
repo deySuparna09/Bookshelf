@@ -4,9 +4,7 @@ import axios from "axios";
 const getAccessToken = () => localStorage.getItem("token");
 
 const baseURL =
-  import.meta.env.VITE_BACKEND_URL ||
-  import.meta.env.VITE_DEPLOYED_BACKEND_URL ||
-  "http://localhost:5000";
+  import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_DEPLOYED_BACKEND_URL;
 
 // Create axios instance
 const axiosInstance = axios.create({

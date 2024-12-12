@@ -9,7 +9,7 @@ const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
 const app = express();
 
-const clientURL = process.env.CLIENT_URL || process.env.DEPLOYED_CLIENT_URL;
+const clientURL = process.env.DEPLOYED_CLIENT_URL || process.env.CLIENT_URL;
 app.use(
   cors({
     origin: clientURL,

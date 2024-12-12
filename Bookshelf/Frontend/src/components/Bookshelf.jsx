@@ -323,7 +323,7 @@ const Bookshelf = () => {
 
                   <button
                     onClick={() => removeFromBookshelf(book._id)}
-                    className="px-1 py-2 mt-3 bg-red-600 text-white rounded-lg hover:bg-red-800 duration-300 cursor-pointer"
+                    className="px-1 py-2 mt-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 duration-300"
                   >
                     Remove from the Bookshelf
                   </button>

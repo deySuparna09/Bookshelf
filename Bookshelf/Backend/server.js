@@ -8,12 +8,14 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
 const bookRoutes = require("./routes/book");
 const app = express();
+app.enable("trust proxy");
 
 const clientURL = process.env.DEPLOYED_CLIENT_URL || process.env.CLIENT_URL;
 app.use(
   cors({
     origin: clientURL,
     credentials: true, // Allows cookies to be sent
+    methods: ["GET", "POST", "OPTIONS"],
   })
 );
 
@@ -24,6 +26,7 @@ app.use(
     secret: process.env.JWT_SECRET,
     resave: false,
     saveUninitialized: true,
+    proxy: true,
   })
 );
 

@@ -261,7 +261,7 @@ const githubCallback = (req, res) => {
       email: req.user.email,
     };
 
-    const clientUrl = process.env.DEPLOYED_CLIENT_URL || process.env.CLIENT_URL;
+    const clientUrl = process.env.DEPLOYED_CLIENT_URL;
     // Redirect with tokens as query parameters
     res.redirect(
       `${clientUrl}/github/callback?token=${token}&refreshToken=${refreshToken}&user=${encodeURIComponent(

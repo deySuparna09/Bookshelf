@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const sgMail = require("@sendgrid/mail");
 
 // Register a new user
 const register = async (req, res) => {
@@ -162,6 +163,9 @@ const me = async (req, res) => {
   }
 };
 
+// Set SendGrid API key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 // Forgot Password - Send Reset Link
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
@@ -179,41 +183,24 @@ const forgotPassword = async (req, res) => {
     user.resetToken = resetToken;
     user.resetTokenExpiry = resetTokenExpiry;
     await user.save();
-    //console.log("User updated with resetToken:", user);
-
-    // Create a transporter using Ethereal email service
-    const testAccount = await nodemailer.createTestAccount();
-    const transporter = nodemailer.createTransport({
-      host: testAccount.smtp.host,
-      port: testAccount.smtp.port,
-      secure: false, // Use false for non-SSL connections
-      auth: {
-        user: testAccount.user,
-        pass: testAccount.pass,
-      },
-    });
-
-    //console.log("Ethereal Email User:", testAccount.user);
-    //console.log("Ethereal Email Pass:", testAccount.pass);
 
     const resetURL = `${
       process.env.DEPLOYED_CLIENT_URL || process.env.CLIENT_URL
     }/reset-password/${resetToken}`;
-    const mailOptions = {
-      from: `"Bookshelf App" <${testAccount.user}>`, // Sender address
-      to: email, // Receiver address
+
+    // Send email using SendGrid
+    const msg = {
+      to: email, // Recipient
+      from: process.env.EMAIL_SENDER, // Sender (verified email address)
       subject: "Password Reset Request",
       text: `You requested a password reset. Click the link below to reset your password:\n\n${resetURL}`,
+      html: `<p>You requested a password reset. Click the link below to reset your password:</p>
+      <a href="${resetURL}">${resetURL}</a>`,
     };
 
-    // Send the email
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Preview URL:", nodemailer.getTestMessageUrl(info)); // Preview the email
+    await sgMail.send(msg);
 
-    res.status(200).json({
-      message: "Password reset email sent",
-      previewURL: nodemailer.getTestMessageUrl(info),
-    });
+    res.status(200).json({ message: "Password reset email sent" });
   } catch (error) {
     console.error("Forgot Password error:", error);
     res.status(500).json({ message: "Server error" });

@@ -3,8 +3,7 @@ import axios from "axios";
 // Function to get the token from localStorage
 const getAccessToken = () => localStorage.getItem("token");
 
-const baseURL =
-  import.meta.env.VITE_DEPLOYED_BACKEND_URL || import.meta.env.VITE_BACKEND_URL;
+const baseURL = import.meta.env.VITE_DEPLOYED_BACKEND_URL;
 
 // Create axios instance
 const axiosInstance = axios.create({

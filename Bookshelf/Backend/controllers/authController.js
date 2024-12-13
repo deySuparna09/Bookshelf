@@ -184,9 +184,7 @@ const forgotPassword = async (req, res) => {
     user.resetTokenExpiry = resetTokenExpiry;
     await user.save();
 
-    const resetURL = `${
-      process.env.DEPLOYED_CLIENT_URL || process.env.CLIENT_URL
-    }/reset-password/${resetToken}`;
+    const resetURL = `${process.env.DEPLOYED_CLIENT_URL}/reset-password/${resetToken}`;
 
     // Send email using SendGrid
     const msg = {

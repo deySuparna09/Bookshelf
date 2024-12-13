@@ -15,7 +15,6 @@ app.use(
   cors({
     origin: clientURL,
     credentials: true, // Allows cookies to be sent
-    methods: ["GET", "POST", "OPTIONS"],
   })
 );
 

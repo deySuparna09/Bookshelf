@@ -168,6 +168,8 @@ const Bookshelf = () => {
                 ...b,
                 reviews: updatedBook.reviews,
                 averageRating: updatedBook.averageRating,
+                userRating: "", // Clear the rating input
+                userReview: "", // Clear the review input
               }
             : b
         )

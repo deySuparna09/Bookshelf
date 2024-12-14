@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Bookshelf from './components/Bookshelf';
 import Dashboard from './components/Dashboard';
@@ -12,6 +13,18 @@ import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from './components/ProtectedRoute';
 import GitHubCallback from './components/GitHubCallback';
 const App = () => {
+
+  useEffect(() => {
+    const visited = sessionStorage.getItem("visited");
+
+    // Check if the current URL is the same as the previously visited URL
+    if (visited === window.location.href) {
+      alert("Redirect loop detected!");
+    } else {
+      sessionStorage.setItem("visited", window.location.href);
+    }
+  }, []);
+  
   return (
     <>
     <Router>

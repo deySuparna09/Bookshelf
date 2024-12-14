@@ -32,6 +32,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Middleware to prevent redirect loops
+app.use((req, res, next) => {
+  if (req.originalUrl === req.get("referer")) {
+    return res.status(500).send("Redirect loop detected");
+  }
+  next();
+});
+
 // Connect to MongoDB
 connectDB();
 

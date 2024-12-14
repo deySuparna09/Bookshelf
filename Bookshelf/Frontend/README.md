@@ -99,6 +99,8 @@ JWT_SECRET=your-secret-key
 JWT_REFRESH_SECRET=your-refresh-secret
 GITHUB_CLIENT_ID=your-client-id
 GITHUB_CLIENT_SECRET=your-client-secret
+SENDGRID_API_KEY=your_sendgrid_api_key
+EMAIL_SENDER=your_verified_sender_email
 ```
 
 - Start the backend server:

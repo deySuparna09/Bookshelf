@@ -36,7 +36,15 @@ function Navbar() {
       >
         <nav className="flex justify-between items-center">
           {/* Logo */}
-          <h1 className="text-white text-lg font-bold flex items-center gap-2">
+          <h1
+            className="text-white text-lg font-bold flex items-center gap-2"
+            style={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontWeight: "700",
+              fontSize: "1.5rem",
+              lineHeight: "1.2",
+            }}
+          >
             <span
               role="img"
               aria-label="bookshelf-icon"

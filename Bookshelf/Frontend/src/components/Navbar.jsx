@@ -60,19 +60,19 @@ function Navbar() {
           {/* Desktop Links */}
           <div className="hidden md:flex items-center space-x-4">
             <Link to="/" className={`flex items-center gap-2 ${isActive("/")}`}>
-              <FaHome style={{ color: "#4caf50" }} /> Home
+              <FaHome style={{ color: "#4caf50" }} /> HOME
             </Link>
             <Link
               to="/dashboard"
               className={`flex items-center gap-2 ${isActive("/dashboard")}`}
             >
-              <FaChartLine style={{ color: "#ff9800" }} /> Dashboard
+              <FaChartLine style={{ color: "#ff9800" }} /> DASHBOARD
             </Link>
             <Link
               to="/bookshelf"
               className={`flex items-center gap-2 ${isActive("/bookshelf")}`}
             >
-              <FaRegFolderOpen style={{ color: "#03a9f4" }} /> My Bookshelf
+              <FaRegFolderOpen style={{ color: "#03a9f4" }} /> MY BOOKSHELF
             </Link>
 
             {/* Theme Toggle Button */}
@@ -119,21 +119,21 @@ function Navbar() {
             className={`flex items-center gap-2 ${isActive("/")}`}
             onClick={handleLinkClick}
           >
-            <FaHome style={{ color: "#4caf50" }} /> Home
+            <FaHome style={{ color: "#4caf50" }} /> HOME
           </Link>
           <Link
             to="/dashboard"
             className={`flex items-center gap-2 ${isActive("/dashboard")}`}
             onClick={handleLinkClick}
           >
-            <FaChartLine style={{ color: "#ff9800" }} /> Dashboard
+            <FaChartLine style={{ color: "#ff9800" }} /> DASHBOARD
           </Link>
           <Link
             to="/bookshelf"
             className={`flex items-center gap-2 ${isActive("/bookshelf")}`}
             onClick={handleLinkClick}
           >
-            <FaRegFolderOpen style={{ color: "#03a9f4" }} /> My Bookshelf
+            <FaRegFolderOpen style={{ color: "#03a9f4" }} /> MY BOOKSHELF
           </Link>
 
           {/* Theme Toggle Button */}

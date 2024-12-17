@@ -40,7 +40,7 @@ const register = async (req, res) => {
 // Login a user
 const login = async (req, res) => {
   const { email, password, providerId, provider } = req.body;
-  console.log("Request body:", req.body);
+  //console.log("Request body:", req.body);
   try {
     if (!email || !password) {
       return res
@@ -62,7 +62,7 @@ const login = async (req, res) => {
         return res.status(400).json({ message: "Invalid user" });
       }
 
-      console.log(password, "signin", user.password);
+      //console.log(password, "signin", user.password);
       // Compare the provided password with the hashed password
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {

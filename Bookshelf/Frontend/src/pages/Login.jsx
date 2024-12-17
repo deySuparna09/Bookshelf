@@ -3,6 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../components/useAuth";
 import { FaGithub } from "react-icons/fa";
 import { ThemeContext } from "../components/ThemeContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,18 +18,20 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(email, password);
+      toast.success("Login successful! Redirecting to your bookshelf...");
       navigate("/bookshelf");
     } catch (error) {
       console.error(
         "Login failed:",
         error.response?.data?.message || error.message
       );
-      alert(
-        "Login failed: " +
-          (error.response?.data?.message || "Please try again.")
-      );
+      toast.error(
+      "Login failed: " +
+        (error.response?.data?.message || "Please try again.")
+    );
     }
   };
+
 
   const handleSocialLogin = async (provider) => {
     try {
@@ -47,6 +52,7 @@ const Login = () => {
           : "bg-gray-100 text-gray-800"
       }`}
     >
+      <ToastContainer />
       <div
         className={`login-container p-8 text-center shadow-md rounded-lg ${
           theme === "dark" ? "bg-gray-700" : "bg-white"

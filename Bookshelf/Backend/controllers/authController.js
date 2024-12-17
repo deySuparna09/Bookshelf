@@ -40,7 +40,13 @@ const register = async (req, res) => {
 // Login a user
 const login = async (req, res) => {
   const { email, password, providerId, provider } = req.body;
+  console.log("Request body:", req.body);
   try {
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
     let user;
     if (providerId && provider) {
       user = await User.findOne({ providerId, provider });
@@ -50,9 +56,17 @@ const login = async (req, res) => {
           .json({ message: "User not found for this provider." });
       }
     } else {
+      // Email and password login
       user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({ message: "Invalid credentials" });
+        return res.status(400).json({ message: "Invalid user" });
+      }
+
+      console.log(password, "signin", user.password);
+      // Compare the provided password with the hashed password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(400).json({ message: "Invalid password" });
       }
     }
 

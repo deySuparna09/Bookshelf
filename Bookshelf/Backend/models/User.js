@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
 });
 
-// Hash password before saving user
+/* Hash password before saving user
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   try {
@@ -28,7 +28,7 @@ userSchema.pre("save", async function (next) {
   } catch (error) {
     next(error);
   }
-});
+});*/
 
 // Custom error handling for unique fields
 userSchema.post("save", function (error, doc, next) {

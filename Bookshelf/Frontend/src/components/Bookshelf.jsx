@@ -16,22 +16,31 @@ const Bookshelf = () => {
   // Fetch books whenever the user is available
   const { theme } = useContext(ThemeContext);
   useEffect(() => {
+    let isMounted = true; // Flag to track component mounting
+  
     const fetchBooks = async () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axiosInstance.get("/api/book", {
           headers: { Authorization: `Bearer ${token}` }, // Send token for user-specific books
         });
-        setBooks(Array.isArray(res.data) ? res.data : []);
+        if (isMounted) {
+          setBooks(Array.isArray(res.data) ? res.data : []);
+        }
       } catch (error) {
         console.error("Error fetching books:", error);
       }
     };
-
+  
     // Call fetchBooks only if the user is authenticated
-    if (user) {
+    if (user && isMounted) {
       fetchBooks();
     }
+  
+    // Cleanup function to prevent state updates after unmount
+    return () => {
+      isMounted = false;
+    };
   }, [user]);
 
   const handleSearch = async () => {

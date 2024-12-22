@@ -56,17 +56,6 @@ const addBook = async (req, res) => {
   }
 };
 
-// Get all books for the authenticated user
-/*const getBooks = async (req, res) => {
-  try {
-    const books = await Book.find({ user: req.user.id });
-    res.json(books);
-  } catch (error) {
-    console.error("Error in getBooks:", error);
-    res.status(500).json({ message: "Error fetching books" });
-  }
-};*/
-
 const getBooks = async (req, res) => {
   try {
     const books = await Book.find({ user: req.user.id }).lean();
@@ -74,7 +63,7 @@ const getBooks = async (req, res) => {
     const booksWithUserReview = books.map((book) => {
       // Find all reviews by the current user
       const userReviews = book.reviews.filter(
-        (review) => review.user === req.user.id
+        (review) => review.user.toString() === req.user.id.toString()
       );
       // Get the last review if it exists
       const lastUserReview =

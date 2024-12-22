@@ -7,14 +7,16 @@ import {
   FaTimes,
   FaSun,
   FaMoon,
+  FaSignOutAlt,
 } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "./ThemeContext";
 
 function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const location = useLocation(); // Get the current location
+  const navigate = useNavigate();
 
   const handleLinkClick = () => {
     setMobileMenuOpen(false);
@@ -23,6 +25,16 @@ function Navbar() {
   // Function to check if the link is active
   const isActive = (path) =>
     location.pathname === path ? "text-green-500" : "text-white"; // Default to white text for inactive links
+
+  const handleLogout = () => {
+    // Clear tokens from localStorage or sessionStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+
+    // Redirect to login page
+    navigate("/login");
+  };
+
 
   return (
     <>
@@ -82,6 +94,14 @@ function Navbar() {
             >
               <FaRegFolderOpen style={{ color: "#03a9f4" }} /> MY BOOKSHELF
             </Link>
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-white hover:text-green-500"
+            >
+              <FaSignOutAlt style={{ color: "#f44336" }} /> LOGOUT
+            </button>
 
             {/* Theme Toggle Button */}
             <button
@@ -143,6 +163,18 @@ function Navbar() {
           >
             <FaRegFolderOpen style={{ color: "#03a9f4" }} /> MY BOOKSHELF
           </Link>
+
+          {/* Mobile Logout Button */}
+          <button
+            onClick={() => {
+              handleLogout();
+              handleLinkClick();
+            }}
+            className="flex items-center gap-2 text-white hover:text-green-500"
+          >
+            <FaSignOutAlt style={{ color: "#f44336" }} /> LOGOUT
+          </button>
+
 
           {/* Theme Toggle Button */}
           <button

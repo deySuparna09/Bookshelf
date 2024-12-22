@@ -57,10 +57,36 @@ const addBook = async (req, res) => {
 };
 
 // Get all books for the authenticated user
-const getBooks = async (req, res) => {
+/*const getBooks = async (req, res) => {
   try {
     const books = await Book.find({ user: req.user.id });
     res.json(books);
+  } catch (error) {
+    console.error("Error in getBooks:", error);
+    res.status(500).json({ message: "Error fetching books" });
+  }
+};*/
+
+const getBooks = async (req, res) => {
+  try {
+    const books = await Book.find({ user: req.user.id }).lean();
+
+    const booksWithUserReview = books.map((book) => {
+      // Find all reviews by the current user
+      const userReviews = book.reviews.filter(
+        (review) => review.user === req.user.id
+      );
+      // Get the last review if it exists
+      const lastUserReview =
+        userReviews.length > 0 ? userReviews[userReviews.length - 1] : null;
+      return {
+        ...book,
+        userReview: lastUserReview ? lastUserReview.review : null,
+        userRating: lastUserReview ? lastUserReview.rating : null,
+      };
+    });
+
+    res.json(booksWithUserReview);
   } catch (error) {
     console.error("Error in getBooks:", error);
     res.status(500).json({ message: "Error fetching books" });

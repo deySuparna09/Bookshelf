@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useAuth } from "./useAuth"; // Ensure this import path is correct
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import axios from "axios";
 import { ThemeContext } from "./ThemeContext";
@@ -12,8 +12,6 @@ const Bookshelf = () => {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const { user } = useAuth(); // Get current authenticated user
-  const navigate = useNavigate();
-  // Fetch books whenever the user is available
   const { theme } = useContext(ThemeContext);
   useEffect(() => {
     let isMounted = true; // Flag to track component mounting
@@ -189,15 +187,6 @@ const Bookshelf = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Clear tokens from localStorage or sessionStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("refreshToken");
-
-    // Redirect to login page
-    navigate("/login");
-  };
-
   // If the user is not authenticated, redirect to the login page
   if (!user) {
     return <Navigate to="/login" />;
@@ -345,13 +334,6 @@ const Bookshelf = () => {
             <p>No books in your bookshelf yet.</p>
           )}
         </div>
-
-        <button
-          onClick={handleLogout}
-          className="logout-button px-2 py-2 bg-black text-white mt-3 rounded-lg hover:bg-slate-900 duration-300 cursor-pointer"
-        >
-          Logout
-        </button>
       </div>
     </>
   );

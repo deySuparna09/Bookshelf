@@ -10,7 +10,10 @@ const bookRoutes = require("./routes/book");
 const app = express();
 app.enable("trust proxy");
 
-const clientURL = process.env.DEPLOYED_CLIENT_URL;
+const clientURL =
+  process.env.NODE_ENV === "production"
+    ? process.env.DEPLOYED_CLIENT_URL
+    : "http://localhost:5173";
 app.use(
   cors({
     origin: clientURL,

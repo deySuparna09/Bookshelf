@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { default: mongoose } = require("mongoose");
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 const sgMail = require("@sendgrid/mail");
 
 // Register a new user
